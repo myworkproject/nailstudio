@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS clients;
+
+CREATE TABLE clients (
+  id INT4 PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(80),
+  phone VARCHAR(15)
+);
