@@ -38,4 +38,11 @@ public class EmployeeRepositoryImplTest {
         assertThat(employee, is(employeeRepository.getById(5)));
     }
 
+    @Test
+    public void update_user() {
+        Employee fromDB = employeeRepository.getById(1);
+        fromDB.setName("Anna");
+        employeeRepository.update(fromDB);
+        assertThat(fromDB, is(employeeRepository.getById(1)));
+    }
 }

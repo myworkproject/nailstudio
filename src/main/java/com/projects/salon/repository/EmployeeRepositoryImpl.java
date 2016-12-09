@@ -49,7 +49,8 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
-    public void update(Employee employee) {
-
+    public void update(Employee em) {
+        jdbcTemplate.update("UPDATE employees SET name=?,phone=?,salary=? WHERE id=?",
+                em.getName(), em.getPhone(), em.getSalary(), em.getId());
     }
 }
