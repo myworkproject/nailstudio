@@ -8,4 +8,10 @@ public interface ClientRepository {
     List<Client> getAll();
 
     Client getById(int id);
+
+    int save(Client client);
+
+    void update(Client client);
+
+    void delete(int id);
 }

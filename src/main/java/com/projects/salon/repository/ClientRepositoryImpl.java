@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -14,10 +17,14 @@ import java.util.List;
 public class ClientRepositoryImpl implements ClientRepository {
     private static final RowMapper<Client> CLIENT_ROW_MAPPER = BeanPropertyRowMapper.newInstance(Client.class);
     private JdbcTemplate jdbcTemplate;
+    private SimpleJdbcInsert jdbcInsert;
 
     @Autowired
     public ClientRepositoryImpl(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.jdbcInsert = new SimpleJdbcInsert(dataSource)
+                .withTableName("clients")
+                .usingGeneratedKeyColumns("id");
     }
 
     @Override
@@ -28,5 +35,22 @@ public class ClientRepositoryImpl implements ClientRepository {
     @Override
     public Client getById(int id) {
         return jdbcTemplate.queryForObject("SELECT id,name,phone FROM clients WHERE id=?", CLIENT_ROW_MAPPER, id);
+    }
+
+    @Override
+    public int save(Client client) {
+        SqlParameterSource source = new BeanPropertySqlParameterSource(client);
+        return jdbcInsert.executeAndReturnKey(source).intValue();
+    }
+
+    @Override
+    public void update(Client client) {
+        jdbcTemplate.update("UPDATE clients SET name=?,phone=? WHERE id=?",
+                client.getName(), client.getPhone(), client.getId());
+    }
+
+    @Override
+    public void delete(int id) {
+        jdbcTemplate.update("DELETE FROM clients WHERE id=?", id);
     }
 }
