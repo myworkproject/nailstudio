@@ -1,7 +1,15 @@
 DROP TABLE IF EXISTS clients;
+DROP TABLE IF EXISTS employees;
 
 CREATE TABLE clients (
   id INT4 PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(80),
   phone VARCHAR(15)
+);
+
+CREATE TABLE employees (
+  id INT4 PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(80),
+  phone VARCHAR(15),
+  salary INT4
 );
