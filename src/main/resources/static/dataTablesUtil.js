@@ -4,8 +4,9 @@ var datatableApi;
 
 function renderBtn(data, type, row) {
     if (type === "display") {
-        return '<div class="ui mini buttons">'+
+        return '<div class="ui mini buttons">' +
             '<button class="ui button" onclick="updateRow(' + row.id + ');">Изменить</button>' +
+            '<div class="or" data-text="или"></div>' +
             '<button class="ui button" onclick="deleteRow(' + row.id + ');">Удалить</button></div>';
     }
     return data;
@@ -52,7 +53,9 @@ function updateRow(id) {
         $.each(data, function (key, value) {
             form.find("input[name='" + key + "']").val(value);
         });
-        $(".ui.modal").modal("show");
+        $(".ui.modal").modal({
+            blurring: true
+        }).modal("show");
     });
     datatableApi.draw();
 }
@@ -64,7 +67,9 @@ function makeEditable() {
     $("#add").click(function () {
         form.find(":input").val("");
         $("#id").val(0);
-        $(".ui.modal").modal("show");
+        $(".ui.modal").modal({
+            blurring: true
+        }).modal("show");
     });
 
     form.submit(function () {
