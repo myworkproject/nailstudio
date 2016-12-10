@@ -33,11 +33,33 @@
 <script>
     $(document).ready(function () {
         $('#calendar').fullCalendar({
+            events: "/event/all",
             header: {
-                left: '',
+                left: 'agendaWeek,month',
                 center: 'title',
                 right: 'today,prev,next'
             },
+            buttonText: {
+                today: 'Сегодня',
+                month: 'Месяц',
+                week: 'Неделя',
+                day: 'День',
+                list: 'Список'
+            },
+            allDaySlot: false,
+            monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль',
+                'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+            monthNamesShort: ['Янв.', 'Фев.', 'Мрт', 'Апр.', 'Май', 'Июн.',
+                'Июл.', 'Авг.', 'Сен.', 'Окт.', 'Нбр', 'Дек.'],
+            dayNames: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг',
+                'Пятница', 'Суббота'],
+            dayNamesShort: ['Вс.', 'Пн.', 'Вт.', 'Ср.', 'Чт.', 'Пт.', 'Сб.'],
+            firstDay: 1,
+            weekNumbers: true,
+            weekNumberTitle: 'Н',
+            timeFormat: 'H(:mm)',
+            slotLabelFormat: 'H(:mm)',
+            minTime: "9:00:00",
             height: 600,
         });
     });
