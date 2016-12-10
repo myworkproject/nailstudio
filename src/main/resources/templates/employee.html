@@ -15,6 +15,32 @@
 <body>
 <header th:include="fragments :: header">
 </header>
+<div class="ui modal">
+    <form id="emplForm" class="ui form">
+        <input type="number" name="id" hidden="hidden"/>
+
+        <div class="description">
+            <div class="field">
+                <label>Имя</label>
+                <input type="text" name="name" placeholder="Имя"/>
+            </div>
+            <div class="field">
+                <label>Телефон</label>
+                <input type="text" name="phone" placeholder="Телефон"/>
+            </div>
+            <div class="field">
+                <label>Зарплата</label>
+                <input type="text" name="salary" placeholder="Процент от суммы"/>
+            </div>
+        </div>
+
+        <div class="actions">
+            <div class="ui black deny button">Отмена</div>
+            <div class="ui positive button" onclick="save()">Сохранить</div>
+        </div>
+    </form>
+</div>
+<button id="add" class="ui button">Добавить</button>
 <div class="ui grid">
     <div class="column row">
         <div class="eight wide column">
@@ -25,7 +51,6 @@
                     <td>Name</td>
                     <td>Phone</td>
                     <td>Salary</td>
-                    <td></td>
                     <td></td>
                 </tr>
                 </thead>
@@ -40,8 +65,15 @@
 <script>
     var datatableApi;
     var url = "/employee/";
+    var form;
 
     $(document).ready(function () {
+        form = $("#emplForm");
+
+        $("#add").click(function () {
+            $(".ui.modal").modal('show');
+        });
+
         datatableApi = $("#dataTable").DataTable({
             "paging": false,
             "info": false,
@@ -57,12 +89,7 @@
                 {
                     "defaultContent": "",
                     "sortable": false,
-                    "render": renderEditBtn
-                },
-                {
-                    "defaultContent": "",
-                    "sortable": false,
-                    "render": renderDeleteBtn
+                    "render": renderBtn
                 }
             ]
         });

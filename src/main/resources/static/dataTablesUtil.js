@@ -1,13 +1,8 @@
-function renderEditBtn(data, type, row) {
+function renderBtn(data, type, row) {
     if (type === "display") {
-        return '<a class="ui mini primary button" onclick="updateRow(' + row.id + ');">Edit</a>';
-    }
-    return data;
-}
-
-function renderDeleteBtn(data, type, row) {
-    if (type === "display") {
-        return '<a class="ui mini red button" onclick="deleteRow(' + row.id + ');">Delete</a>';
+        return '<div class="ui mini buttons">'+
+            '<button class="ui button" onclick="updateRow(' + row.id + ');">Изменить</button>' +
+            '<button class="ui button" onclick="deleteRow(' + row.id + ');">Удалить</button></div>';
     }
     return data;
 }
@@ -20,23 +15,22 @@ function updateTableByData(data) {
 }
 
 function updateTable() {
-    $.get(url+"/all", function (data) {
+    $.get(url + "/all", function (data) {
         updateTableByData(data);
     });
 }
 
-// function save() {
-//     $.ajax({
-//         type: "POST",
-//         url: url,
-//         data: form.serialize(),
-//         success: function () {
-//             $("#editModal").modal("hide");
-//             updateTable();
-//             successNoty("Saved");
-//         }
-//     });
-// }
+function save() {
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: form.serialize(),
+        success: function () {
+            $(".ui.modal").modal("hide");
+            updateTable();
+        }
+    });
+}
 
 function deleteRow(id) {
     $.ajax({
