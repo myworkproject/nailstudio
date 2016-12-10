@@ -19,5 +19,5 @@ CREATE TABLE events (
   id int PRIMARY KEY AUTO_INCREMENT,
   title VARCHAR(200),
   start TIMESTAMP,
-  end TIMESTAMP
+  end TIMESTAMP DEFAULT now()
 );
