@@ -10,4 +10,6 @@ public interface EventRepository {
     Event getById(int id);
 
     int saveAndReturnKey(Event event);
+
+    int updateAndReturnKey(Event event);
 }

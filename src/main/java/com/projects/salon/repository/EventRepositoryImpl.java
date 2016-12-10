@@ -49,4 +49,12 @@ public class EventRepositoryImpl implements EventRepository {
         LOGGER.debug("Save event: {}.", event);
         return jdbcInsert.executeAndReturnKey(source).intValue();
     }
+
+    @Override
+    public int updateAndReturnKey(Event event) {
+        LOGGER.debug("Update event: {}; {}", event.getId(), event);
+        jdbcTemplate.update("UPDATE events SET title=?,start=?,end=? WHERE id=?",
+                event.getTitle(), event.getStart(), event.getEnd(), event.getId());
+        return event.getId();
+    }
 }

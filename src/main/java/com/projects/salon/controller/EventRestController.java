@@ -20,7 +20,7 @@ public class EventRestController {
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Event> getAll() {
-        LOGGER.debug("Returns all events.");
+//        LOGGER.debug("Returns all events.");
         return eventRepository.getAll();
     }
 
@@ -30,8 +30,12 @@ public class EventRestController {
     }
 
     @PostMapping
-    public int save(Event event) {
-        LOGGER.debug("Save event: {}.", event);
-        return eventRepository.saveAndReturnKey(event);
+    public int saveOrUpdateAndReturnKey(Event event) {
+//        LOGGER.debug("Save event: {}.", event);
+        if (event.getId() == null) {
+            return eventRepository.saveAndReturnKey(event);
+        } else {
+            return eventRepository.updateAndReturnKey(event);
+        }
     }
 }
