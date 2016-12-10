@@ -70,6 +70,19 @@
         $("#end").val("");
     }
 
+    function updateEvent(event) {
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                id: event.id,
+                title: event.title,
+                start: event.start.format(),
+                end: event.end.format()
+            }
+        });
+    }
+
     $(document).ready(function () {
         $("#start").datepicker({
             timepicker: true,
@@ -115,16 +128,10 @@
             height: 600,
             editable: true,
             eventDrop: function (event, delta, revertFunc) {
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: {
-                        id: event.id,
-                        title: event.title,
-                        start: event.start.format(),
-                        end: event.end.format()
-                    }
-                });
+                updateEvent(event);
+            },
+            eventResize: function (event, delta, revertFunc) {
+                updateEvent(event);
             }
         });
     });
