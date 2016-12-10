@@ -1,15 +1,23 @@
 DROP TABLE IF EXISTS clients;
 DROP TABLE IF EXISTS employees;
+DROP TABLE IF EXISTS events;
 
 CREATE TABLE clients (
-  id INT4 PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(80),
+  id    INT PRIMARY KEY AUTO_INCREMENT,
+  name  VARCHAR(80),
   phone VARCHAR(15)
 );
 
 CREATE TABLE employees (
-  id INT4 PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(80),
-  phone VARCHAR(15),
-  salary INT4
+  id     INT PRIMARY KEY AUTO_INCREMENT,
+  name   VARCHAR(80),
+  phone  VARCHAR(15),
+  salary INT
+);
+
+CREATE TABLE events (
+  id int PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(200),
+  start TIMESTAMP,
+  end TIMESTAMP
 );
