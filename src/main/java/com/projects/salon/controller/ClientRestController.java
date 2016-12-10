@@ -37,15 +37,15 @@ public class ClientRestController {
     }
 
     @PostMapping
-    public int save(Client client) {
-        client.setId(null);
-        LOGGER.debug("Save new client: {}", client);
-        return clientRepository.save(client);
-    }
-
-    @PutMapping
-    public void update(Client client) {
-        LOGGER.debug("Update client: {}\nname={},phone={}.", client.getId(), client.getName(), client.getPhone());
-        clientRepository.update(client);
+    public int saveOrUpdateAndReturnKey(Client client) {
+        if (client.getId() == 0) {
+            client.setId(null);
+            LOGGER.debug("Save new client: {}", client);
+            return clientRepository.save(client);
+        } else {
+            LOGGER.debug("Update client: {} name={},phone={}.", client.getId(), client.getName(), client.getPhone());
+            clientRepository.update(client);
+            return client.getId();
+        }
     }
 }
