@@ -7,16 +7,18 @@
           href="/webjars/semantic-ui/2.2.6/dist/semantic.min.css"/>
     <link rel="stylesheet" th:href="@{/webjars/fullcalendar/3.1.0/dist/fullcalendar.min.css}"
           href="/webjars/fullcalendar/3.1.0/dist/fullcalendar.min.css"/>
+    <link rel="stylesheet" th:href="@{/webjars/air-datepicker/2.2.0/dist/css/datepicker.min.css}"
+          href="/webjars/air-datepicker/2.2.0/dist/css/datepicker.min.css"/>
     <script th:src="@{/webjars/jquery/3.1.1/dist/jquery.min.js}"
             src="/webjars/jquery/3.1.1/dist/jquery.min.js"></script>
     <script th:src="@{/webjars/semantic-ui/2.2.6/dist/semantic.min.js}"
             src="/webjars/semantic-ui/2.2.6/dist/semantic.min.js"></script>
-    <script th:src="@{/webjars/datatables/1.10.12/js/jquery.dataTables.min.js}"
-            src="/webjars/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
     <script th:src="@{/webjars/moment/2.17.1/min/moment.min.js}"
             src="/webjars/moment/2.17.1/min/moment.min.js"></script>
     <script th:src="@{/webjars/fullcalendar/3.1.0/dist/fullcalendar.min.js}"
             src="/webjars/fullcalendar/3.1.0/dist/fullcalendar.min.js"></script>
+    <script th:src="@{/webjars/air-datepicker/2.2.0/dist/js/datepicker.min.js}"
+            src="/webjars/air-datepicker/2.2.0/dist/js/datepicker.min.js"></script>
 </head>
 <body>
 <header th:include="fragments :: header">
@@ -26,12 +28,63 @@
         <div id="calendar"></div>
     </div>
     <div class="ui four wide column">
-        Event form in progress...
+        <form class="ui form">
+            <div class="field">
+                <label for="title">Title</label>
+                <input type="text" id="title" placeholder="Title"/>
+            </div>
+            <div class="field">
+                <label for="start">Start</label>
+                <input type='text' id="start"/>
+            </div>
+            <div class="field">
+                <label for="end">End</label>
+                <input type='text' id="end"/>
+            </div>
+            <button id="eventSave" class="ui button primary" onclick="saveEvent()">Save</button>
+        </form>
     </div>
 </div>
 </body>
 <script>
+    var url = "/event/";
+
+    function saveEvent() {
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+//                id: 0,
+                title: $("#title").val(),
+                start: $("#start").val().replace(" ","T"),
+                end: $("#end").val().replace(" ","T")
+            },
+            success: function () {
+                clearFormFields();
+            }
+        });
+    }
+
+    function clearFormFields() {
+        $("#title").val("");
+        $("#start").val("");
+        $("#end").val("");
+    }
+
     $(document).ready(function () {
+        $("#start").datepicker({
+            timepicker: true,
+            minDate: new Date(),
+            minHours: 9,
+            dateFormat: 'yyyy-mm-dd',
+        });
+        $("#end").datepicker({
+            timepicker: true,
+            minDate: new Date(),
+            minHours: 9,
+            dateFormat: 'yyyy-mm-dd',
+        });
+
         $('#calendar').fullCalendar({
             events: "/event/all",
             header: {
