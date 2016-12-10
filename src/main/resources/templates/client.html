@@ -15,42 +15,42 @@
 <body>
 <header th:include="fragments :: header">
 </header>
-<div class="ui modal">
-    <form id="form" class="ui form">
-        <input type="number" id="id" name="id" hidden="hidden"/>
-
-        <div class="description">
-            <div class="field">
-                <label>Имя</label>
-                <input type="text" name="name" placeholder="Имя"/>
+<div class="ui divider"></div>
+<div class="ui small modal">
+    <div class="content">
+        <form id="form" class="ui form">
+            <input type="number" id="id" name="id" hidden="hidden"/>
+            <div class="content">
+                <div class="field">
+                    <label>Имя</label>
+                    <input type="text" name="name" placeholder="Имя"/>
+                </div>
+                <div class="field">
+                    <label>Телефон</label>
+                    <input type="text" name="phone" placeholder="Телефон"/>
+                </div>
             </div>
-            <div class="field">
-                <label>Телефон</label>
-                <input type="text" name="phone" placeholder="Телефон"/>
+            <div class="ui divider"></div>
+            <div class="actions">
+                <div class="ui black deny button">Отмена</div>
+                <div class="ui positive button" onclick="save()">Сохранить</div>
             </div>
-        </div>
-
-        <div class="actions">
-            <div class="ui black deny button">Отмена</div>
-            <div class="ui positive button" onclick="save()">Сохранить</div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 <button id="add" class="ui button">Добавить</button>
 <div class="ui grid">
-    <div class="column row">
-        <div class="eight wide column">
-            <table id="dataTable" class="ui single line celled table">
-                <thead class="">
-                <tr>
-                    <td>Id</td>
-                    <td>Name</td>
-                    <td>Phone</td>
-                    <td></td>
-                </tr>
-                </thead>
-            </table>
-        </div>
+    <div class="column">
+        <table id="dataTable" class="ui single line celled table">
+            <thead class="">
+            <tr>
+                <td>Id</td>
+                <td>Name</td>
+                <td>Phone</td>
+                <td></td>
+            </tr>
+            </thead>
+        </table>
     </div>
 </div>
 </body>
