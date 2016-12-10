@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface EventRepository {
     List<Event> getAll();
+
+    Event getById(int id);
+
+    int saveAndReturnKey(Event event);
 }
