@@ -24,6 +24,8 @@
                     <td>Id</td>
                     <td>Name</td>
                     <td>Phone</td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 </thead>
             </table>
@@ -31,6 +33,9 @@
     </div>
 </div>
 </body>
+<script src="dataTablesUtil.js"
+        th:src="@{dataTablesUtil.js}">
+</script>
 <script>
     var datatableApi;
     var url = "/client/";
@@ -46,7 +51,17 @@
             "columns": [
                 {"data": "id"},
                 {"data": "name"},
-                {"data": "phone"}
+                {"data": "phone"},
+                {
+                    "defaultContent": "",
+                    "sortable": false,
+                    "render": renderEditBtn
+                },
+                {
+                    "defaultContent": "",
+                    "sortable": false,
+                    "render": renderDeleteBtn
+                }
             ]
         });
     });

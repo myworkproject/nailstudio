@@ -25,6 +25,8 @@
                     <td>Name</td>
                     <td>Phone</td>
                     <td>Salary</td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 </thead>
             </table>
@@ -32,6 +34,9 @@
     </div>
 </div>
 </body>
+<script src="dataTablesUtil.js"
+        th:src="@{dataTablesUtil.js}">
+</script>
 <script>
     var datatableApi;
     var url = "/employee/";
@@ -48,7 +53,17 @@
                 {"data": "id"},
                 {"data": "name"},
                 {"data": "phone"},
-                {"data": "salary"}
+                {"data": "salary"},
+                {
+                    "defaultContent": "",
+                    "sortable": false,
+                    "render": renderEditBtn
+                },
+                {
+                    "defaultContent": "",
+                    "sortable": false,
+                    "render": renderDeleteBtn
+                }
             ]
         });
     });
