@@ -8,7 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping
 public class RootController {
 
-    @GetMapping("/employee")
+    @GetMapping("/")
+    public String home() {
+        return "calendar";
+    }
+
+    @GetMapping("/employees")
     public String employees() {
         return "employee";
     }
