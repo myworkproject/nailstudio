@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Employee</title>
+    <link rel="stylesheet" th:href="@{/webjars/semantic-ui/2.2.6/dist/semantic.min.css}"
+          href="/webjars/semantic-ui/2.2.6/dist/semantic.min.css"/>
+    <script th:src="@{/webjars/jquery/3.1.1/dist/jquery.min.js}"
+            src="/webjars/jquery/3.1.1/dist/jquery.min.js"></script>
+    <script th:src="@{/webjars/semantic-ui/2.2.6/dist/semantic.min.js}"
+            src="/webjars/semantic-ui/2.2.6/dist/semantic.min.js"></script>
+    <script th:src="@{/webjars/datatables/1.10.12/js/jquery.dataTables.min.js}"
+            src="/webjars/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+<div class="ui grid">
+    <div class="column row">
+        <div class="eight wide column">
+            <table id="dataTable" class="ui single line celled table">
+                <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Name</td>
+                    <td>Phone</td>
+                    <td>Salary</td>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var datatableApi;
+    var url = "/employee/";
+
+    $(document).ready(function () {
+        datatableApi = $("#dataTable").DataTable({
+            "paging": false,
+            "info": false,
+            "ajax": {
+                "url": url + 'all',
+                "dataSrc": ""
+            },
+            "columns": [
+                {"data": "id"},
+                {"data": "name"},
+                {"data": "phone"},
+                {"data": "salary"}
+            ]
+        });
+    });
+</script>
+</html>

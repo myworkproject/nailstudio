@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping
 public class RootController {
 
+    @GetMapping("/employee")
+    public String employees() {
+        return "employee";
+    }
+
     @GetMapping("/clients")
     public String clients() {
         return "client";
