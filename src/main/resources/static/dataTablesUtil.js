@@ -1,3 +1,7 @@
+var url;
+var form;
+var datatableApi;
+
 function renderBtn(data, type, row) {
     if (type === "display") {
         return '<div class="ui mini buttons">'+
@@ -48,35 +52,23 @@ function updateRow(id) {
         $.each(data, function (key, value) {
             form.find("input[name='" + key + "']").val(value);
         });
-        $("#editModal").modal();
+        $(".ui.modal").modal("show");
     });
     datatableApi.draw();
 }
-//
-// function enable(chkbox, id) {
-//     var enabled = chkbox.is(":checked");
-//     chkbox.closest('tr').css("text-decoration", enabled ? "none" : "line-through");
-//     $.ajax({
-//         url: url + id,
-//         type: "POST",
-//         data: "enabled=" + enabled,
-//         success: function () {
-//             successNoty(enabled ? "Enabled" : "Disabled");
-//         }
-//     });
-// }
-//
-// function makeEditable() {
-//     form = $("#detailsForm");
-//
-//     $("#add").click(function () {
-//         form.find(":input").val("");
-//         $("#id").val(0);
-//         $("#editModal").modal();
-//     });
-//
-//     form.submit(function () {
-//         save();
-//         return false;
-//     });
-// }
+
+
+function makeEditable() {
+    form = $("#form");
+
+    $("#add").click(function () {
+        form.find(":input").val("");
+        $("#id").val(0);
+        $(".ui.modal").modal("show");
+    });
+
+    form.submit(function () {
+        save();
+        return false;
+    });
+}

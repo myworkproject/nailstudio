@@ -16,8 +16,8 @@
 <header th:include="fragments :: header">
 </header>
 <div class="ui modal">
-    <form id="emplForm" class="ui form">
-        <input type="number" name="id" hidden="hidden"/>
+    <form id="form" class="ui form">
+        <input type="number" id="id" name="id" hidden="hidden"/>
 
         <div class="description">
             <div class="field">
@@ -63,17 +63,9 @@
         th:src="@{dataTablesUtil.js}">
 </script>
 <script>
-    var datatableApi;
-    var url = "/employee/";
-    var form;
+    url = "/employee/";
 
     $(document).ready(function () {
-        form = $("#emplForm");
-
-        $("#add").click(function () {
-            $(".ui.modal").modal('show');
-        });
-
         datatableApi = $("#dataTable").DataTable({
             "paging": false,
             "info": false,
@@ -91,7 +83,10 @@
                     "sortable": false,
                     "render": renderBtn
                 }
-            ]
+            ],
+            "initComplete": function () {
+                makeEditable();
+            }
         });
     });
 </script>

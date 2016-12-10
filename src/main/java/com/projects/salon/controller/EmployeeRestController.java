@@ -37,16 +37,16 @@ public class EmployeeRestController {
     }
 
     @PostMapping
-    public int saveAndReturnKey(Employee employee) {
-        employee.setId(null);
-        LOGGER.debug("Save employee: {}.", employee);
-        return employeeRepository.save(employee);
-    }
-
-    @PutMapping
-    public void update(Employee employee) {
-        LOGGER.debug("Update employee {}: name={}, phone={}, salary={}.",
-                employee.getId(), employee.getName(), employee.getPhone(), employee.getSalary());
-        employeeRepository.update(employee);
+    public int saveOrUpdateAndReturnKey(Employee employee) {
+        if (employee.getId() == 0) {
+            employee.setId(null);
+            LOGGER.debug("Save employee: {}.", employee);
+            return employeeRepository.save(employee);
+        } else {
+            LOGGER.debug("Update employee {}: name={}, phone={}, salary={}.",
+                    employee.getId(), employee.getName(), employee.getPhone(), employee.getSalary());
+            employeeRepository.update(employee);
+            return employee.getId();
+        }
     }
 }
