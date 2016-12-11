@@ -23,14 +23,18 @@
 <body>
 <header th:include="fragments :: header">
 </header>
+<div class="ui divider"></div>
 <div class="ui small modal">
     <div class="content">
         <div class="ui grid">
+            <input id="eventId" hidden="hidden"/>
             <div class="thirteen wide column">
-
+                <div class="ui input">
+                    <input type="text" placeholder="Сумма"/>
+                </div>
+                <button id="pay" class="ui positive basic button" onclick="eventPay()">Заплатить</button>
             </div>
             <div class="one wide column">
-                <input id="eventId" hidden="hidden"/>
                 <button class="ui button red" onclick="deleteEvent()">Delete</button>
             </div>
         </div>
@@ -76,6 +80,10 @@
                 clearFormFields();
             }
         });
+    }
+
+    function eventPay() {
+        $(".ui.modal").modal("hide");
     }
 
     function deleteEvent() {
@@ -161,7 +169,9 @@
             },
             eventClick: function (calEvent, jsEvent, view) {
                 $("#eventId").val(calEvent.id);
-                $(".ui.modal").modal("show");
+                $(".ui.modal").modal({
+                    blurring: true
+                }).modal("show");
             }
         });
     });
