@@ -23,6 +23,19 @@
 <body>
 <header th:include="fragments :: header">
 </header>
+<div class="ui small modal">
+    <div class="content">
+        <div class="ui grid">
+            <div class="thirteen wide column">
+
+            </div>
+            <div class="one wide column">
+                <input id="eventId" hidden="hidden"/>
+                <button class="ui button red" onclick="deleteEvent()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="ui grid">
     <div class="ui twelve wide column">
         <div id="calendar"></div>
@@ -48,6 +61,7 @@
 </body>
 <script>
     var url = "/event/";
+    var calendar;
 
     function saveEvent() {
         $.ajax({
@@ -60,6 +74,18 @@
             },
             success: function () {
                 clearFormFields();
+            }
+        });
+    }
+
+    function deleteEvent() {
+        var eventId = $("#eventId").val();
+        $.ajax({
+            type: "DELETE",
+            url: url + eventId,
+            success: function () {
+                calendar.fullCalendar('removeEvents', eventId);
+                $(".ui.modal").modal("hide");
             }
         });
     }
@@ -97,7 +123,7 @@
             dateFormat: 'yyyy-mm-dd',
         });
 
-        $('#calendar').fullCalendar({
+        calendar = $('#calendar').fullCalendar({
             events: "/event/all",
             header: {
                 left: 'agendaWeek,month',
@@ -132,6 +158,10 @@
             },
             eventResize: function (event, delta, revertFunc) {
                 updateEvent(event);
+            },
+            eventClick: function (calEvent, jsEvent, view) {
+                $("#eventId").val(calEvent.id);
+                $(".ui.modal").modal("show");
             }
         });
     });

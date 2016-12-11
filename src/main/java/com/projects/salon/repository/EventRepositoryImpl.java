@@ -60,6 +60,6 @@ public class EventRepositoryImpl implements EventRepository {
 
     @Override
     public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM event WHERE id=?", id);
+        jdbcTemplate.update("DELETE FROM events WHERE id=?", id);
     }
 }
