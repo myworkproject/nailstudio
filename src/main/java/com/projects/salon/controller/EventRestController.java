@@ -38,4 +38,9 @@ public class EventRestController {
             return eventRepository.updateAndReturnKey(event);
         }
     }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable int id) {
+        eventRepository.delete(id);
+    }
 }

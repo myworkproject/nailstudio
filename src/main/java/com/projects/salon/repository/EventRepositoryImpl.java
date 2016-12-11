@@ -57,4 +57,9 @@ public class EventRepositoryImpl implements EventRepository {
                 event.getTitle(), event.getStart(), event.getEnd(), event.getId());
         return event.getId();
     }
+
+    @Override
+    public void delete(int id) {
+        jdbcTemplate.update("DELETE FROM event WHERE id=?", id);
+    }
 }

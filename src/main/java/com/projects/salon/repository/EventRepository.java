@@ -12,4 +12,6 @@ public interface EventRepository {
     int saveAndReturnKey(Event event);
 
     int updateAndReturnKey(Event event);
+
+    void delete(int id);
 }
