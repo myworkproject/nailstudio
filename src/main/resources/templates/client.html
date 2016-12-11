@@ -54,34 +54,8 @@
     </div>
 </div>
 </body>
-<script src="dataTablesUtil.js"
-        th:src="@{dataTablesUtil.js}">
-</script>
-<script>
-    url = "/client/";
-
-    $(document).ready(function () {
-        datatableApi = $("#dataTable").DataTable({
-            "paging": false,
-            "info": false,
-            "ajax": {
-                "url": url + 'all',
-                "dataSrc": ""
-            },
-            "columns": [
-                {"data": "id"},
-                {"data": "name"},
-                {"data": "phone"},
-                {
-                    "defaultContent": "",
-                    "sortable": false,
-                    "render": renderBtn
-                }
-            ],
-            "initComplete": function () {
-                makeEditable();
-            }
-        });
-    });
-</script>
+<script src="../static/dataTablesUtil.js"
+        th:src="@{dataTablesUtil.js}"></script>
+<script src="../static/clientDataTableConfig.js"
+        th:src="@{clientDataTableConfig.js}"></script>
 </html>
