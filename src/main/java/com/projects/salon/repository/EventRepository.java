@@ -14,4 +14,6 @@ public interface EventRepository {
     int updateAndReturnKey(Event event);
 
     void delete(int id);
+
+    void payEvent(int id, int sum);
 }

@@ -17,6 +17,16 @@ function saveEvent() {
 }
 
 function eventPay() {
+    $.ajax({
+        type: "POST",
+        url: url + "/pay/" + $("#eventId").val(),
+        data: {
+            sum: $("#sum").val()
+        },
+        success: function () {
+            calendar.fullCalendar('refetchEvents');
+        }
+    });
     $(".ui.modal").modal("hide");
 }
 

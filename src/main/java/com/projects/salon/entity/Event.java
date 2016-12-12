@@ -17,4 +17,5 @@ public class Event {
     private LocalDateTime start;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime end;
+    private int sum;
 }

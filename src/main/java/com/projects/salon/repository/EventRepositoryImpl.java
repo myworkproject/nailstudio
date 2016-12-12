@@ -33,13 +33,13 @@ public class EventRepositoryImpl implements EventRepository {
     @Override
     public List<Event> getAll() {
         LOGGER.debug("Returns all events.");
-        return jdbcTemplate.query("SELECT id,title,start,end FROM events", EVENT_ROW_MAPPER);
+        return jdbcTemplate.query("SELECT id,title,start,end,sum FROM events", EVENT_ROW_MAPPER);
     }
 
     @Override
     public Event getById(int id) {
         LOGGER.debug("Return event: {}", id);
-        return jdbcTemplate.queryForObject("SELECT title,start,end FROM events WHERE id=?",
+        return jdbcTemplate.queryForObject("SELECT title,start,end,sum FROM events WHERE id=?",
                 EVENT_ROW_MAPPER, id);
     }
 
@@ -61,5 +61,10 @@ public class EventRepositoryImpl implements EventRepository {
     @Override
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM events WHERE id=?", id);
+    }
+
+    @Override
+    public void payEvent(int id, int sum) {
+        jdbcTemplate.update("UPDATE events SET sum=? WHERE id=?", sum, id);
     }
 }

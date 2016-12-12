@@ -50,6 +50,11 @@ $(document).ready(function () {
         },
         eventClick: function (calEvent, jsEvent, view) {
             $("#eventId").val(calEvent.id);
+            var sum = calEvent.sum;
+            $("#sum").val("");
+            if (sum != 0) {
+                $("#sum").val(sum);
+            }
             $(".ui.modal").modal({
                 blurring: true
             }).modal("show");

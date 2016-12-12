@@ -20,7 +20,7 @@ public class EventRestController {
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Event> getAll() {
-//        LOGGER.debug("Returns all events.");
+        LOGGER.debug("Returns all events.");
         return eventRepository.getAll();
     }
 
@@ -31,12 +31,18 @@ public class EventRestController {
 
     @PostMapping
     public int saveOrUpdateAndReturnKey(Event event) {
-//        LOGGER.debug("Save event: {}.", event);
+        LOGGER.debug("Save event: {}.", event);
         if (event.getId() == null) {
             return eventRepository.saveAndReturnKey(event);
         } else {
             return eventRepository.updateAndReturnKey(event);
         }
+    }
+
+    @PostMapping("/pay/{id}")
+    public void payEvent(@PathVariable int id, int sum) {
+        LOGGER.debug("Event {}, pay {}.", id, sum);
+        eventRepository.payEvent(id, sum);
     }
 
     @DeleteMapping("/{id}")

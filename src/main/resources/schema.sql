@@ -18,6 +18,7 @@ CREATE TABLE employees (
 CREATE TABLE events (
   id int PRIMARY KEY AUTO_INCREMENT,
   title VARCHAR(200),
-  start TIMESTAMP,
-  end TIMESTAMP DEFAULT now()
+  start TIMESTAMP DEFAULT now(),
+  end TIMESTAMP DEFAULT now(),
+  sum int DEFAULT 0
 );
