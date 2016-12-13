@@ -27,8 +27,6 @@
 <div class="ui small modal">
     <div class="content">
         <div class="ui grid">
-            <input id="eventId" hidden="hidden"/>
-            <input id="employeeId" hidden="hidden"/>
             <div class="thirteen wide column">
                 <div class="ui input">
                     <input type="number" id="sum" placeholder="Сумма"/>
@@ -50,6 +48,16 @@
     </div>
     <div class="ui four wide column">
         <form class="ui form">
+            <input id="eventId" hidden="hidden"/>
+            <input id="employeeId" hidden="hidden"/>
+            <div class="field">
+                <label for="start">Начало</label>
+                <input type='text' id="start"/>
+            </div>
+            <div class="field">
+                <label for="end">Конец</label>
+                <input type='text' id="end"/>
+            </div>
             <div class="field">
                 <label for="clients">Клиент:</label>
                 <select id="clients">
@@ -59,15 +67,7 @@
                 <label for="title">Примечание</label>
                 <input type="text" id="title"/>
             </div>
-            <div class="field">
-                <label for="start">Начало</label>
-                <input type='text' id="start"/>
-            </div>
-            <div class="field">
-                <label for="end">Конец</label>
-                <input type='text' id="end"/>
-            </div>
-            <button id="eventSave" class="ui button primary" onclick="saveEvent()">Записать</button>
+            <div class="ui button primary" onclick="saveEvent()">Записать</div>
         </form>
     </div>
 </div>

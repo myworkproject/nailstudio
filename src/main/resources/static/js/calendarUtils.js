@@ -13,6 +13,7 @@ function saveEvent() {
             end: $("#end").val().replace(" ", "T")
         },
         success: function () {
+            calendar.fullCalendar('refetchEvents');
             clearFormFields();
         }
     });

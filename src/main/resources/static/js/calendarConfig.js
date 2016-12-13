@@ -13,7 +13,6 @@ $(document).ready(function () {
     });
 
     calendar = $('#calendar').fullCalendar({
-        // events: "/event/all",
         header: {
             left: 'agendaWeek,month',
             center: 'title',
