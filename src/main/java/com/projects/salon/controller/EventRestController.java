@@ -18,10 +18,10 @@ public class EventRestController {
     @Autowired
     private EventRepository eventRepository;
 
-    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Event> getAll() {
+    @GetMapping(value = "/all/{employeeId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<Event> getAll(@PathVariable int employeeId) {
         LOGGER.debug("Returns all events.");
-        return eventRepository.getAll();
+        return eventRepository.getAll(employeeId);
     }
 
     @GetMapping("/{id}")

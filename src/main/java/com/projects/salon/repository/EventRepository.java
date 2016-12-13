@@ -5,7 +5,7 @@ import com.projects.salon.entity.Event;
 import java.util.List;
 
 public interface EventRepository {
-    List<Event> getAll();
+    List<Event> getAll(int employeeId);
 
     Event getById(int id);
 

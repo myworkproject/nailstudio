@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class Event {
     private Integer id;
     private Integer clientId;
+    private Integer employeeId;
     private String title;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime start;

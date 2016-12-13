@@ -7,6 +7,7 @@ function saveEvent() {
         url: url,
         data: {
             clientId: $("#clients").val(),
+            employeeId: $("#employeeId").val(),
             title: $("#title").val(),
             start: $("#start").val().replace(" ", "T"),
             end: $("#end").val().replace(" ", "T")
@@ -60,4 +61,10 @@ function updateEvent(event) {
             end: event.end.format()
         }
     });
+}
+
+function getEvents(id) {
+    $("#employeeId").val(id);
+    calendar.fullCalendar('removeEventSources');
+    calendar.fullCalendar('addEventSource', '/event/all/' + id);
 }

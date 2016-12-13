@@ -18,6 +18,7 @@ CREATE TABLE employees (
 CREATE TABLE events (
   id int PRIMARY KEY AUTO_INCREMENT,
   client_id int,
+  employee_id int,
   title VARCHAR(200),
   start TIMESTAMP DEFAULT now(),
   end TIMESTAMP DEFAULT now(),

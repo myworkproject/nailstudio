@@ -13,7 +13,7 @@ $(document).ready(function () {
     });
 
     calendar = $('#calendar').fullCalendar({
-        events: "/event/all",
+        // events: "/event/all",
         header: {
             left: 'agendaWeek,month',
             center: 'title',
@@ -40,7 +40,7 @@ $(document).ready(function () {
         timeFormat: 'H(:mm)',
         slotLabelFormat: 'H(:mm)',
         minTime: "9:00:00",
-        height: 600,
+        height: 540,
         editable: true,
         eventDrop: function (event, delta, revertFunc) {
             updateEvent(event);
@@ -59,7 +59,7 @@ $(document).ready(function () {
                 blurring: true
             }).modal("show");
         },
-        eventRender: function( event, element, view ) {
+        eventRender: function (event, element, view) {
         }
     });
 
@@ -68,6 +68,18 @@ $(document).ready(function () {
         success: function (data) {
             $.each(data, function (i, client) {
                 $("#clients").append('<option value="' + client.id + '">' + client.name + '</option>');
+            });
+        }
+    });
+
+    $.ajax({
+        url: '/employee/all',
+        success: function (data) {
+            $("#employees").append('<div class="divider"> / </div>');
+            $.each(data, function (i, employee) {
+                $("#employees").append(
+                    '<a class="section" onclick="getEvents(' + employee.id + ')">' + employee.name.substr(0, employee.name.indexOf(" ")) + '</a>' +
+                    '<div class="divider"> / </div>');
             });
         }
     });
