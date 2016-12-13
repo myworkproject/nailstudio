@@ -58,6 +58,17 @@ $(document).ready(function () {
             $(".ui.modal").modal({
                 blurring: true
             }).modal("show");
+        },
+        eventRender: function( event, element, view ) {
+        }
+    });
+
+    $.ajax({
+        url: '/client/all',
+        success: function (data) {
+            $.each(data, function (i, client) {
+                $("#clients").append('<option value="' + client.id + '">' + client.name + '</option>');
+            });
         }
     });
 });

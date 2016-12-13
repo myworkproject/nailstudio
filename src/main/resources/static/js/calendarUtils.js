@@ -6,6 +6,7 @@ function saveEvent() {
         type: "POST",
         url: url,
         data: {
+            clientId: $("#clients").val(),
             title: $("#title").val(),
             start: $("#start").val().replace(" ", "T"),
             end: $("#end").val().replace(" ", "T")
