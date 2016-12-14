@@ -1,0 +1,1 @@
+web: java $JAVA_OPTS -agentlib:TakipiAgent -Dserver.port=$PORT -jar target/*.jar
