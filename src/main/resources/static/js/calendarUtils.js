@@ -58,6 +58,7 @@ function updateEvent(event) {
         data: {
             id: event.id,
             title: event.title,
+            sum: event.sum,
             start: event.start.format(),
             end: event.end.format()
         }
