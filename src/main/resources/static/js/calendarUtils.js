@@ -22,7 +22,7 @@ function saveEvent() {
 function eventPay() {
     $.ajax({
         type: "POST",
-        url: url + "/pay/" + $("#eventId").val(),
+        url: url + "pay/" + $("#eventId").val(),
         data: {
             sum: $("#sum").val()
         },
