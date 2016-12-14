@@ -41,17 +41,15 @@ public class EventRepositoryImpl implements EventRepository {
     }
 
     @Override
-    public int saveAndReturnKey(Event event) {
+    public void save(Event event) {
         LOGGER.debug("Save event: {}.", event);
         jdbcTemplate.update(new SavePreparedStatementCreator(event));
-        return 1;
     }
 
     @Override
-    public int updateAndReturnKey(Event event) {
+    public void update(Event event) {
         LOGGER.debug("Update event: {}; {}", event.getId(), event);
         jdbcTemplate.update(new UpdatePreparedStatementCreator(event));
-        return 1;
     }
 
     @Override

@@ -30,12 +30,12 @@ public class EventRestController {
     }
 
     @PostMapping
-    public int saveOrUpdateAndReturnKey(Event event) {
+    public void saveOrUpdateAndReturnKey(Event event) {
         LOGGER.debug("Save event: {}.", event);
         if (event.getId() == null) {
-            return eventRepository.saveAndReturnKey(event);
+            eventRepository.save(event);
         } else {
-            return eventRepository.updateAndReturnKey(event);
+            eventRepository.update(event);
         }
     }
 

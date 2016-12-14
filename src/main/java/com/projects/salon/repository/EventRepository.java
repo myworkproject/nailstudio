@@ -9,9 +9,9 @@ public interface EventRepository {
 
     Event getById(int id);
 
-    int saveAndReturnKey(Event event);
+    void save(Event event);
 
-    int updateAndReturnKey(Event event);
+    void update(Event event);
 
     void delete(int id);
 
