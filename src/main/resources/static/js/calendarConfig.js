@@ -77,7 +77,7 @@ $(document).ready(function () {
             $("#employees").append('<div class="divider"> / </div>');
             $.each(data, function (i, employee) {
                 $("#employees").append(
-                    '<a class="section" onclick="getEvents(' + employee.id + ')">' + employee.name.substr(0, employee.name.indexOf(" ")) + '</a>' +
+                    '<a class="section" onclick="getEvents(' + employee.id + ')">' + employee.name + '</a>' +
                     '<div class="divider"> / </div>');
             });
         }
