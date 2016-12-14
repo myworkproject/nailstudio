@@ -1,16 +1,13 @@
 package com.projects.salon.config;
 
-import com.mysql.cj.jdbc.Driver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 
 import javax.sql.DataSource;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.SQLException;
 
 import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
 
@@ -40,22 +37,6 @@ public class DatabaseConfig {
         dataSource.setUrl(dbUrl);
         dataSource.setUsername(username);
         dataSource.setPassword(password);
-        return dataSource;
-    }
-
-    @Bean
-    @Profile("mysql")
-    public DataSource local() {
-        SimpleDriverDataSource dataSource = null;
-        try {
-            dataSource = new SimpleDriverDataSource();
-            dataSource.setDriver(new Driver());
-            dataSource.setUrl("URL");
-            dataSource.setUsername("USERNAME");
-            dataSource.setPassword("PASSWORD");
-        } catch (SQLException ignore) {
-            // NOP
-        }
         return dataSource;
     }
 
