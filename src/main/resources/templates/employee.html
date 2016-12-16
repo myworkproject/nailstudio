@@ -5,12 +5,6 @@
     <title>Работники</title>
     <link rel="stylesheet" th:href="@{/webjars/semantic-ui/2.2.6/dist/semantic.min.css}"
           href="/webjars/semantic-ui/2.2.6/dist/semantic.min.css"/>
-    <script th:src="@{/webjars/jquery/3.1.1/dist/jquery.min.js}"
-            src="/webjars/jquery/3.1.1/dist/jquery.min.js"></script>
-    <script th:src="@{/webjars/semantic-ui/2.2.6/dist/semantic.min.js}"
-            src="/webjars/semantic-ui/2.2.6/dist/semantic.min.js"></script>
-    <script th:src="@{/webjars/datatables/1.10.12/js/jquery.dataTables.min.js}"
-            src="/webjars/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
 <header th:include="fragments :: header">
@@ -60,9 +54,15 @@
         </table>
     </div>
 </div>
-</body>
+<script th:src="@{/webjars/jquery/3.1.1/dist/jquery.min.js}"
+        src="/webjars/jquery/3.1.1/dist/jquery.min.js"></script>
+<script th:src="@{/webjars/semantic-ui/2.2.6/dist/semantic.min.js}"
+        src="/webjars/semantic-ui/2.2.6/dist/semantic.min.js"></script>
+<script th:src="@{/webjars/datatables/1.10.12/js/jquery.dataTables.min.js}"
+        src="/webjars/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
 <script src="../static/js/dataTablesUtil.js"
         th:src="@{js/dataTablesUtil.js}"></script>
 <script src="../static/js/employeeDataTableConfig.js"
         th:src="@{js/employeeDataTableConfig.js}"></script>
+</body>
 </html>
