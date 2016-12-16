@@ -1,5 +1,6 @@
 package com.projects.salon.config;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -13,6 +14,7 @@ import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.
 
 @Configuration
 public class DatabaseConfig {
+    private static final int DATABASE_POOL_SIZE = 2;
 
     @Bean
     @Profile("heroku")
@@ -31,12 +33,12 @@ public class DatabaseConfig {
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':'
                 + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
 
-        org.apache.tomcat.jdbc.pool.DataSource dataSource
-                = new org.apache.tomcat.jdbc.pool.DataSource();
+        HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl(dbUrl);
+        dataSource.setJdbcUrl(dbUrl);
         dataSource.setUsername(username);
         dataSource.setPassword(password);
+        dataSource.setMaximumPoolSize(DATABASE_POOL_SIZE);
         return dataSource;
     }
 
