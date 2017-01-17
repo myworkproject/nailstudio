@@ -12,4 +12,5 @@ public class Employee {
     private String name;
     private String phone;
     private int salary;
+    private int percent;
 }

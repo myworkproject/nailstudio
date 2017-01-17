@@ -29,12 +29,12 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     @Override
     public List<Employee> getAll() {
-        return jdbcTemplate.query("SELECT id,name,phone,salary FROM employees", EMPLOYEE_ROW_MAPPER);
+        return jdbcTemplate.query("SELECT id,name,phone,salary,percent FROM employees", EMPLOYEE_ROW_MAPPER);
     }
 
     @Override
     public Employee getById(int id) {
-        return jdbcTemplate.queryForObject("SELECT id,name,phone,salary FROM employees WHERE id=?", EMPLOYEE_ROW_MAPPER, id);
+        return jdbcTemplate.queryForObject("SELECT id,name,phone,salary,percent FROM employees WHERE id=?", EMPLOYEE_ROW_MAPPER, id);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     @Override
     public void update(Employee em) {
-        jdbcTemplate.update("UPDATE employees SET name=?,phone=?,salary=? WHERE id=?",
-                em.getName(), em.getPhone(), em.getSalary(), em.getId());
+        jdbcTemplate.update("UPDATE employees SET name=?,phone=?,salary=?,percent=? WHERE id=?",
+                em.getName(), em.getPhone(), em.getSalary(), em.getPercent(), em.getId());
     }
 }

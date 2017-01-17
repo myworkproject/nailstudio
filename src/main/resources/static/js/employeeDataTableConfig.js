@@ -12,6 +12,7 @@ $(document).ready(function () {
             {"data": "id"},
             {"data": "name"},
             {"data": "phone"},
+            {"data": "percent"},
             {"data": "salary"},
             {
                 "defaultContent": "",

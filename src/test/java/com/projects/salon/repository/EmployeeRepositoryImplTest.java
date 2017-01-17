@@ -34,7 +34,7 @@ public class EmployeeRepositoryImplTest {
 
     @Test
     public void save_new_employee() {
-        Employee employee = new Employee(null, "John", "222", 200);
+        Employee employee = new Employee(null, "John", "222", 0,200);
         int key = employeeRepository.save(employee);
         employee.setId(key);
         assertThat(employee, is(employeeRepository.getById(5)));
