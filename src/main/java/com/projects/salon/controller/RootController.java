@@ -22,4 +22,9 @@ public class RootController {
     public String clients() {
         return "client";
     }
+
+    @GetMapping("/salary")
+    public String salary() {
+        return "salary";
+    }
 }
