@@ -54,9 +54,7 @@ $(document).ready(function () {
             if (sum != 0) {
                 $("#sum").val(sum);
             }
-            $(".ui.modal").modal({
-                blurring: true
-            }).modal("show");
+            $(".ui.modal").modal("show");
         },
         eventRender: function (event, element, view) {
         }

@@ -53,9 +53,7 @@ function updateRow(id) {
         $.each(data, function (key, value) {
             form.find("input[name='" + key + "']").val(value);
         });
-        $(".ui.modal").modal({
-            blurring: true
-        }).modal("show");
+        $(".ui.modal").modal("show");
     });
     datatableApi.draw();
 }
@@ -67,9 +65,7 @@ function makeEditable() {
     $("#add").click(function () {
         form.find(":input").val("");
         $("#id").val(0);
-        $(".ui.modal").modal({
-            blurring: true
-        }).modal("show");
+        $(".ui.modal").modal("show");
     });
 
     form.submit(function () {
