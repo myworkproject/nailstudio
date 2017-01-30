@@ -4,6 +4,7 @@ import com.projects.salon.entity.EmailRecord;
 import com.projects.salon.entity.Employee;
 import com.projects.salon.repository.EmployeeRepository;
 import com.projects.salon.repository.EventRepository;
+import com.projects.salon.service.MailSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class SchedulingTest {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private MailSender mailSender;
+
     @Async
     @Scheduled(cron = "0/60 * * * * *")
     public void test() {
@@ -34,6 +38,7 @@ public class SchedulingTest {
         for (Employee employee : employees) {
             List<EmailRecord> tomorrowsForEmployee = eventRepository.getTomorrowsForEmployee(employee.getId());
             LOGGER.debug("TOMORROW RECORDS FOR {}: {}", employee.getName(), tomorrowsForEmployee);
+            mailSender.sendMessage(employee, tomorrowsForEmployee);
         }
     }
 }
