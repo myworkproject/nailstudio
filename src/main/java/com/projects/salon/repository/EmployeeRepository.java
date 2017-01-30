@@ -7,6 +7,8 @@ import java.util.List;
 public interface EmployeeRepository {
     List<Employee> getAll();
 
+    List<Employee> getAllWithoutAdmin();
+
     Employee getById(int id);
 
     void delete(int id);

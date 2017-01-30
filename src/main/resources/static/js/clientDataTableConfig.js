@@ -1,5 +1,11 @@
 url = "/client/";
 
+function updateTable() {
+    $.get(url + "/all", function (data) {
+        updateTableByData(data);
+    });
+}
+
 $(document).ready(function () {
     datatableApi = $("#dataTable").DataTable({
         "paging": false,

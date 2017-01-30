@@ -19,12 +19,6 @@ function updateTableByData(data) {
     });
 }
 
-function updateTable() {
-    $.get(url + "/all", function (data) {
-        updateTableByData(data);
-    });
-}
-
 function save() {
     $.ajax({
         type: "POST",
@@ -54,6 +48,7 @@ function updateRow(id) {
             form.find("input[name='" + key + "']").val(value);
         });
         $(".ui.modal").modal("show");
+        $("#admin").show();
     });
     datatableApi.draw();
 }
@@ -65,6 +60,7 @@ function makeEditable() {
     $("#add").click(function () {
         form.find(":input").val("");
         $("#id").val(0);
+        $("#admin").hide();
         $(".ui.modal").modal("show");
     });
 

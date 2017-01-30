@@ -18,9 +18,13 @@ public class EmployeeRestController {
     private EmployeeRepository employeeRepository;
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Employee> getAll() {
+    public List<Employee> getAll(@RequestParam(required = false) boolean admin) {
         log.debug("Returns all employees.");
-        return employeeRepository.getAll();
+        if (admin) {
+            return employeeRepository.getAll();
+        } else {
+            return employeeRepository.getAllWithoutAdmin();
+        }
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
