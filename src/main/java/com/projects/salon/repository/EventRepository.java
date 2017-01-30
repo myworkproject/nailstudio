@@ -1,5 +1,6 @@
 package com.projects.salon.repository;
 
+import com.projects.salon.entity.EmailRecord;
 import com.projects.salon.entity.Event;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface EventRepository {
     void delete(int id);
 
     void payEvent(int id, int sum);
+
+    List<EmailRecord> getTomorrowsForEmployee(int id);
 }

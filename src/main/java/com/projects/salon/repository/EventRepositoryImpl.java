@@ -1,5 +1,6 @@
 package com.projects.salon.repository;
 
+import com.projects.salon.entity.EmailRecord;
 import com.projects.salon.entity.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import java.util.List;
 public class EventRepositoryImpl implements EventRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(EventRepositoryImpl.class);
     private static final RowMapper<Event> EVENT_ROW_MAPPER = BeanPropertyRowMapper.newInstance(Event.class);
+    private static final RowMapper<EmailRecord> RECORD_ROW_MAPPER = BeanPropertyRowMapper.newInstance(EmailRecord.class);
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -60,6 +62,18 @@ public class EventRepositoryImpl implements EventRepository {
     @Override
     public void payEvent(int id, int sum) {
         jdbcTemplate.update("UPDATE events SET sum=? WHERE id=?", sum, id);
+    }
+
+    @Override
+    public List<EmailRecord> getTomorrowsForEmployee(int id) {
+        return jdbcTemplate.query("SELECT\n" +
+                "  start,\n" +
+                "  name\n" +
+                "FROM events evn\n" +
+                "  LEFT JOIN clients cl ON evn.client_id = cl.id\n" +
+                "WHERE\n" +
+                "  ((start < current_timestamp + INTERVAL '1 day') AND (start > current_timestamp))\n" +
+                "  AND employee_id=?", RECORD_ROW_MAPPER, id);
     }
 
     private class SavePreparedStatementCreator implements PreparedStatementCreator {

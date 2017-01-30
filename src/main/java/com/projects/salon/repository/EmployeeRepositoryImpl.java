@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
@@ -49,8 +47,9 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     @Override
     public int save(Employee employee) {
-        SqlParameterSource source = new BeanPropertySqlParameterSource(employee);
-        return jdbcInsert.executeAndReturnKey(source).intValue();
+        jdbcTemplate.update("INSERT INTO employees(name, phone,salary,percent) VALUES (?,?,?,?)",
+                employee.getName(), employee.getPhone(), employee.getSalary(), employee.getPercent());
+        return 1;
     }
 
     @Override
