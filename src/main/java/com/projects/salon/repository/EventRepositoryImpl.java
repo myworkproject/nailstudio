@@ -73,7 +73,8 @@ public class EventRepositoryImpl implements EventRepository {
                 "  LEFT JOIN clients cl ON evn.client_id = cl.id\n" +
                 "WHERE\n" +
                 "  ((start < current_timestamp + INTERVAL '1 day') AND (start > current_timestamp))\n" +
-                "  AND employee_id=?", RECORD_ROW_MAPPER, id);
+                "  AND employee_id=?" +
+                " ORDER BY start", RECORD_ROW_MAPPER, id);
     }
 
     private class SavePreparedStatementCreator implements PreparedStatementCreator {
