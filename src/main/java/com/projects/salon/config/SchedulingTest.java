@@ -32,12 +32,12 @@ public class SchedulingTest {
     private MailSender mailSender;
 
     @Async
-    @Scheduled(cron = "0 15 22 * * *")
+    @Scheduled(cron = "0 20 22 * * *")
     public void test() {
         List<Employee> employees = employeeRepository.getAllWithoutAdmin();
         for (Employee employee : employees) {
             List<EmailRecord> tomorrowsForEmployee = eventRepository.getTomorrowsForEmployee(employee.getId());
-            LOGGER.debug("TOMORROW RECORDS FOR {}: {}", employee.getName(), tomorrowsForEmployee);
+            LOGGER.info("TOMORROW RECORDS FOR {}: {}", employee.getName(), tomorrowsForEmployee);
             mailSender.sendMessage(employee, tomorrowsForEmployee);
         }
     }

@@ -23,18 +23,18 @@ public class MailSenderImpl implements MailSender {
     public void sendMessage(Employee employee, List<EmailRecord> records) {
         try {
             if (!records.isEmpty()) {
-                LOGGER.debug("Prepare message...");
+                LOGGER.info("Prepare message...");
                 MimeMessage emailMessage = new MimeMessage(mailSession);
                 emailMessage.setSubject(employee.getName() + " " + records.get(0).getStart().toLocalDate().toString());
                 emailMessage.setText(prepareMailContent(records), "UTF-8", "html");
                 emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(employee.getEmail()));
 
-                LOGGER.debug("Try send message...");
+                LOGGER.info("Try send message...");
                 Transport transport = mailSession.getTransport();
                 transport.connect();
                 transport.sendMessage(emailMessage, emailMessage.getRecipients(Message.RecipientType.TO));
                 transport.close();
-                LOGGER.debug("Message send: OK!");
+                LOGGER.info("Message send: OK!");
             }
         } catch (MailException | MessagingException e) {
             LOGGER.error("ERROR: {}", e.getMessage());
