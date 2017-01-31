@@ -2,16 +2,23 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Salary</title>
+    <title>Зарплата</title>
     <link rel="stylesheet" th:href="@{/webjars/semantic-ui/2.2.6/dist/semantic.min.css}"
           href="/webjars/semantic-ui/2.2.6/dist/semantic.min.css"/>
     <script th:src="@{/webjars/jquery/3.1.1/dist/jquery.min.js}"
             src="/webjars/jquery/3.1.1/dist/jquery.min.js"></script>
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
         ga('create', 'UA-91154497-1', 'auto');
         ga('send', 'pageview');
@@ -21,14 +28,42 @@
 <body>
 <header th:include="fragments :: header">
 </header>
+<div class="container">
+    <div class="ui breadcrumb">
+        <a class="section" onclick="getSalaryForMonth(1,this)">Январь</a>
+        <div class="divider"> /</div>
+        <a class="section" onclick="getSalaryForMonth(2,this)">Февраль</a>
+        <div class="divider"> /</div>
+        <a class="section" onclick="getSalaryForMonth(3,this)">Март</a>
+        <div class="divider"> /</div>
+        <a class="section" onclick="getSalaryForMonth(4,this)">Апрель</a>
+        <div class="divider"> /</div>
+        <a class="section" onclick="getSalaryForMonth(5,this)">Май</a>
+        <div class="divider"> /</div>
+        <a class="section" onclick="getSalaryForMonth(6,this)">Июнь</a>
+        <div class="divider"> /</div>
+        <a class="section" onclick="getSalaryForMonth(7,this)">Июль</a>
+        <div class="divider"> /</div>
+        <a class="section" onclick="getSalaryForMonth(8,this)">Август</a>
+        <div class="divider"> /</div>
+        <a class="section" onclick="getSalaryForMonth(9,this)">Сентябрь</a>
+        <div class="divider"> /</div>
+        <a class="section" onclick="getSalaryForMonth(10,this)">Октябрь</a>
+        <div class="divider"> /</div>
+        <a class="section" onclick="getSalaryForMonth(11,this)">Ноябрь</a>
+        <div class="divider"> /</div>
+        <a class="section" onclick="getSalaryForMonth(12,this)">Декабрь</a>
+    </div>
+</div>
+<div class="ui center aligned segment">
+    <span id="text"></span>
+</div>
 <div>
     <div class="ui container">
         <table id="dataTable" class="ui single line celled table">
             <thead>
             <tr>
                 <th>Имя</th>
-                <th>Год</th>
-                <th>Месяц</th>
                 <th>Всего</th>
                 <th>Зарплата</th>
             </tr>
@@ -38,26 +73,9 @@
 </div>
 <script th:src="@{/webjars/datatables/1.10.12/js/jquery.dataTables.min.js}"
         src="/webjars/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
-<script>
-    url = "/salary/";
-
-    $(document).ready(function () {
-        datatableApi = $("#dataTable").DataTable({
-            "paging": false,
-            "info": false,
-            "ajax": {
-                "url": url + 'all',
-                "dataSrc": ""
-            },
-            "columns": [
-                {"data": "name"},
-                {"data": "year"},
-                {"data": "month"},
-                {"data": "total"},
-                {"data": "salary"}
-            ]
-        });
-    });
-</script>
+<script src="../static/js/dataTablesUtil.js"
+        th:src="@{js/dataTablesUtil.js}"></script>
+<script th:src="@{js/salary.js}"
+        src="../static/js/salary.js"></script>
 </body>
 </html>
