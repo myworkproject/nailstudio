@@ -17,6 +17,7 @@ $(document).ready(function () {
         "columns": [
             {"data": "id"},
             {"data": "name"},
+            {"data": "email"},
             {"data": "phone"},
             {"data": "percent"},
             {"data": "salary"},

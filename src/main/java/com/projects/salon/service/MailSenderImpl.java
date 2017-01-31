@@ -26,9 +26,8 @@ public class MailSenderImpl implements MailSender {
                 LOGGER.debug("Prepare message...");
                 MimeMessage emailMessage = new MimeMessage(mailSession);
                 emailMessage.setSubject(employee.getName() + " " + records.get(0).getStart().toLocalDate().toString());
-//            emailMessage.setContent(message, "text/html");
                 emailMessage.setText(prepareMailContent(records), "UTF-8", "html");
-                emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("annasilencko@gmail.com"));
+                emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(employee.getEmail()));
 
                 LOGGER.debug("Try send message...");
                 Transport transport = mailSession.getTransport();
