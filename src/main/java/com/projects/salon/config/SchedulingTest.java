@@ -32,7 +32,7 @@ public class SchedulingTest {
     private MailSender mailSender;
 
     @Async
-    @Scheduled(cron = "0 20 22 * * *")
+    @Scheduled(cron = "0 40 22 * * *")
     public void test() {
         List<Employee> employees = employeeRepository.getAllWithoutAdmin();
         for (Employee employee : employees) {
