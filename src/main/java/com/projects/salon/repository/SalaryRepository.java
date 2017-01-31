@@ -5,7 +5,7 @@ import com.projects.salon.entity.SalaryInfo;
 import java.util.List;
 
 public interface SalaryRepository {
-    List<SalaryInfo> getEmployeesInfo();
+    List<SalaryInfo> getEmployeesInfo(int month);
 
-    SalaryInfo getAdminInfo();
+    SalaryInfo getAdminInfo(int month);
 }

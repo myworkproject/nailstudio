@@ -23,24 +23,27 @@ public class SalaryRepositoryImpl implements SalaryRepository {
     }
 
     @Override
-    public List<SalaryInfo> getEmployeesInfo() {
-        return jdbcTemplate.query("SELECT name,year,month,total,salary FROM employee_salary", SALARY_INFO_ROW_MAPPER);
+    public List<SalaryInfo> getEmployeesInfo(int month) {
+        return jdbcTemplate.query("SELECT name,year,month,total,salary FROM employee_salary WHERE year = 2017 and month=?",
+                SALARY_INFO_ROW_MAPPER, month);
     }
 
     @Override
-    public SalaryInfo getAdminInfo() {
+    public SalaryInfo getAdminInfo(int month) {
         SalaryInfo admin = new SalaryInfo();
         jdbcTemplate.query("SELECT\n" +
                 "  extract(YEAR FROM evn.start)  AS year,\n" +
                 "  extract(MONTH FROM evn.start) AS month,\n" +
-                "  sum(evn.sum) as total\n" +
+                "  sum(evn.sum)                  AS total\n" +
                 "FROM events evn\n" +
-                "GROUP BY year, month;", (resultSet, i) -> {
+                "GROUP BY year, month\n" +
+                "HAVING extract(YEAR FROM evn.start) = 2017\n" +
+                "       AND extract(MONTH FROM evn.start) = ?", (resultSet, i) -> {
             admin.setYear(resultSet.getInt("year"));
             admin.setMonth(resultSet.getInt("month"));
             admin.setTotal(resultSet.getInt("total"));
             return admin;
-        });
+        }, month);
         jdbcTemplate.query("SELECT\n" +
                 "  name,\n" +
                 "  salary,\n" +

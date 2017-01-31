@@ -17,9 +17,9 @@ public class SalaryServiceImpl implements SalaryService {
     }
 
     @Override
-    public List<SalaryInfo> getAllInfos() {
-        List<SalaryInfo> employeesInfo = salaryRepository.getEmployeesInfo();
-        employeesInfo.add(salaryRepository.getAdminInfo());
+    public List<SalaryInfo> getAllInfos(int month) {
+        List<SalaryInfo> employeesInfo = salaryRepository.getEmployeesInfo(month);
+        employeesInfo.add(salaryRepository.getAdminInfo(month));
         return employeesInfo;
     }
 }
