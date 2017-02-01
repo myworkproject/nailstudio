@@ -69,7 +69,7 @@ public class MailSenderImpl implements MailSender {
         return Session.getInstance(props,
                 new Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("daria.zhadan.nailstudio@gmail.com", "an727123");
+                        return new PasswordAuthentication("login", "pass");
                     }
                 });
     }
