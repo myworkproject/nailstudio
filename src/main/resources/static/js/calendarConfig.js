@@ -3,6 +3,7 @@ $(document).ready(function () {
     $("#end").datepicker({timepicker: true, minDate: new Date(), minHours: 9, dateFormat: 'yyyy-mm-dd',});
     calendar = $('#calendar').fullCalendar({
         navLinks: true,
+        eventLimit: true,
         header: {
             left: 'agendaWeek,month',
             center: 'title',
@@ -38,6 +39,14 @@ $(document).ready(function () {
             $(".ui.modal").modal("show");
         },
         eventRender: function (event, element, view) {
+            $.get("/client/" + event.clientId, function (data) {
+                var elemText = element.text();
+                var index = elemText.indexOf(" ");
+                var s1 = elemText.substring(0, index);
+                var s2 = elemText.substring(index);
+                element.empty();
+                element.append(s1 + " " + data.name + " " + s2);
+            });
         }
     });
     $.ajax({
