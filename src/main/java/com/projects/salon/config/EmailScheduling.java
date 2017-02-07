@@ -19,8 +19,8 @@ import java.util.List;
 @Configuration
 @EnableAsync
 @EnableScheduling
-public class SchedulingTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SchedulingTest.class);
+public class EmailScheduling {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmailScheduling.class);
 
     @Autowired
     private EventRepository eventRepository;

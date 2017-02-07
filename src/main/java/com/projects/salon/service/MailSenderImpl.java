@@ -22,7 +22,7 @@ public class MailSenderImpl implements MailSender {
     @Override
     public void sendMessage(Employee employee, List<EmailRecord> records) {
         try {
-            if (!records.isEmpty()) {
+            if (!records.isEmpty() && employee.getEmail() != null) {
                 LOGGER.info("Prepare message...");
                 MimeMessage emailMessage = new MimeMessage(mailSession);
                 emailMessage.setSubject(employee.getName() + " " + records.get(0).getStart().toLocalDate().toString());
@@ -66,10 +66,13 @@ public class MailSenderImpl implements MailSender {
         props.setProperty("mail.smtp.host", "smtp.gmail.com");
         props.setProperty("mail.smtp.port", "587");
 
+        String email = System.getenv("EMAIL");
+        String email_pass = System.getenv("EMAIL_PASS");
+
         return Session.getInstance(props,
                 new Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("login", "pass");
+                        return new PasswordAuthentication(email, email_pass);
                     }
                 });
     }
