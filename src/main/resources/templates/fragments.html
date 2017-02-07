@@ -1,15 +1,1 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Fragments</title></head>
-<body>
-<header th:fragment="header">
-    <div class="ui inverted menu"><a class="header item" th:href="@{/}"> Календарь </a> <a class="item"
-                                                                                           th:href="@{/clients}">
-        Клиенты </a> <a class="item" th:href="@{/employees}"> Работники </a> <a class="item" th:href="@{/salary}">
-        Зарплата </a></div>
-</header>
-<footer th:fragment="footer"></footer>
-</body>
-</html>
+<!DOCTYPE html><html lang="en" xmlns:th="http://www.thymeleaf.org"><head> <meta charset="UTF-8"/> <title>Fragments</title></head><body><header th:fragment="header"> <div class="ui inverted menu"><a class="header item" th:href="@{/}"> Календарь </a> <a class="item" th:href="@{/clients}"> Клиенты </a> <a class="item" th:href="@{/employees}"> Работники </a> <a class="item" th:href="@{/salary}"> Зарплата </a></div></header><footer th:fragment="footer"></footer></body></html>
