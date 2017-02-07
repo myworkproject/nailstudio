@@ -4,9 +4,12 @@ import com.projects.salon.entity.Employee;
 import com.projects.salon.repository.EmployeeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -28,9 +31,11 @@ public class EmployeeRestController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Employee getById(@PathVariable int id) {
+    public HttpEntity<Employee> getById(@PathVariable int id) {
         log.debug("Returns employee: {}.", id);
-        return employeeRepository.getById(id);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("Expires", LocalDateTime.now().plusMonths(1).toString());
+        return new HttpEntity<>(employeeRepository.getById(id), httpHeaders);
     }
 
     @DeleteMapping("/{id}")

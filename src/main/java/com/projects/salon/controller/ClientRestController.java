@@ -4,9 +4,12 @@ import com.projects.salon.entity.Client;
 import com.projects.salon.repository.ClientRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -24,9 +27,11 @@ public class ClientRestController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Client getById(@PathVariable int id) {
+    public HttpEntity<Client> getById(@PathVariable int id) {
         log.debug("Returns client: {}.", id);
-        return clientRepository.getById(id);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("Expires", LocalDateTime.now().plusMonths(1).toString());
+        return new HttpEntity<>(clientRepository.getById(id), httpHeaders);
     }
 
     @DeleteMapping("/{id}")
