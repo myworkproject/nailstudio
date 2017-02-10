@@ -35,8 +35,10 @@
     </div>
     <div class="ui four wide column">
         <form class="ui form"><input id="eventId" hidden="hidden"/> <input id="employeeId" hidden="hidden"/>
-            <div class="field"><label for="start">Начало</label> <input type='text' id="start"/></div>
-            <div class="field"><label for="end">Конец</label> <input type='text' id="end"/></div>
+            <!--<div class="field"><label for="start">Начало</label> <input type="text" id="start"/></div>-->
+            <!--<div class="field"><label for="end">Конец</label> <input type="text" id="end"/></div>-->
+           <div class="field"><label for="start">Начало</label> <input type="datetime-local" id="start"/></div>
+            <div class="field"><label for="end">Конец</label> <input type="datetime-local" id="end"/></div>
             <div class="field"><label for="clients">Клиент:</label> <select id="clients"> </select></div>
             <div class="field"><label for="title">Примечание</label> <input type="text" id="title"/></div>
             <div class="ui button primary" onclick="saveEvent()">Записать</div>
