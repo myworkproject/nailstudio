@@ -20,7 +20,6 @@ import java.util.List;
 @EnableScheduling
 @Slf4j
 public class EmailScheduling {
-
     private final EventRepository eventRepository;
     private final EmployeeRepository employeeRepository;
     private final MailSender mailSender;
