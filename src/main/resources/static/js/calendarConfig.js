@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    $("#start").datepicker({timepicker: true, minDate: new Date(), minHours: 9, dateFormat: 'yyyy-mm-dd',});
-    $("#end").datepicker({timepicker: true, minDate: new Date(), minHours: 9, dateFormat: 'yyyy-mm-dd',});
+    $("#start").datepicker({timepicker: true, /*minDate: new Date(),*/ minHours: 9, dateFormat: 'yyyy-mm-dd',});
+    $("#end").datepicker({timepicker: true, /*minDate: new Date(),*/ minHours: 9, dateFormat: 'yyyy-mm-dd',});
     calendar = $('#calendar').fullCalendar({
         navLinks: true,
         eventLimit: true,
