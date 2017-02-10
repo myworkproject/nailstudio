@@ -2,8 +2,7 @@ package com.projects.salon.repository;
 
 import com.projects.salon.entity.EmailRecord;
 import com.projects.salon.entity.Event;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,8 +15,8 @@ import java.sql.*;
 import java.util.List;
 
 @Repository
+@Slf4j
 public class EventRepositoryImpl implements EventRepository {
-    private static final Logger LOGGER = LoggerFactory.getLogger(EventRepositoryImpl.class);
     private static final RowMapper<Event> EVENT_ROW_MAPPER = BeanPropertyRowMapper.newInstance(Event.class);
     private static final RowMapper<EmailRecord> RECORD_ROW_MAPPER = BeanPropertyRowMapper.newInstance(EmailRecord.class);
     private JdbcTemplate jdbcTemplate;
@@ -29,7 +28,7 @@ public class EventRepositoryImpl implements EventRepository {
 
     @Override
     public List<Event> getAll(int employeeId) {
-        LOGGER.debug("Returns all events.");
+        log.debug("Returns all events.");
         return jdbcTemplate.query(
                 "SELECT id,title,start,\"end\",sum,client_id,employee_id FROM events WHERE employee_id=?",
                 EVENT_ROW_MAPPER, employeeId);
@@ -37,20 +36,20 @@ public class EventRepositoryImpl implements EventRepository {
 
     @Override
     public Event getById(int id) {
-        LOGGER.debug("Return event: {}", id);
+        log.debug("Return event: {}", id);
         return jdbcTemplate.queryForObject("SELECT title,start,\"end\",sum,client_id,employee_id FROM events WHERE id=?",
                 EVENT_ROW_MAPPER, id);
     }
 
     @Override
     public void save(Event event) {
-        LOGGER.debug("Save event: {}.", event);
+        log.debug("Save event: {}.", event);
         jdbcTemplate.update(new SavePreparedStatementCreator(event));
     }
 
     @Override
     public void update(Event event) {
-        LOGGER.debug("Update event: {}; {}", event.getId(), event);
+        log.debug("Update event: {}; {}", event.getId(), event);
         jdbcTemplate.update(new UpdatePreparedStatementCreator(event));
     }
 

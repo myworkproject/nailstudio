@@ -2,42 +2,42 @@ package com.projects.salon.service;
 
 import com.projects.salon.entity.EmailRecord;
 import com.projects.salon.entity.Employee;
+import com.sendgrid.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
 
 @Service
 public class MailSenderImpl implements MailSender {
     private static final Logger LOGGER = LoggerFactory.getLogger(MailSenderImpl.class);
 
-    private static Session mailSession = getMailSession();
-
     @Override
     public void sendMessage(Employee employee, List<EmailRecord> records) {
         try {
             if (!records.isEmpty() && employee.getEmail() != null) {
-                LOGGER.info("Prepare message...");
-                MimeMessage emailMessage = new MimeMessage(mailSession);
-                emailMessage.setSubject(employee.getName() + " " + records.get(0).getStart().toLocalDate().toString());
-                emailMessage.setText(prepareMailContent(records), "UTF-8", "html");
-                emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(employee.getEmail()));
+                LOGGER.info("Prepare email send...");
+                Email from = new Email("DariaZhadanNailStudio@nailstudio.com");
+                String subject = employee.getName() + " " + records.get(0).getStart().toLocalDate().toString();
+                Email to = new Email(employee.getEmail());
+                Content content = new Content("text/html", prepareMailContent(records));
+                Mail mail = new Mail(from, subject, to, content);
 
-                LOGGER.info("Try send message...");
-                Transport transport = mailSession.getTransport();
-                transport.connect();
-                transport.sendMessage(emailMessage, emailMessage.getRecipients(Message.RecipientType.TO));
-                transport.close();
-                LOGGER.info("Message send: OK!");
+                SendGrid sg = new SendGrid(System.getenv("SENDGRID_KEY"));
+                Request request = new Request();
+
+                request.method = Method.POST;
+                request.endpoint = "mail/send";
+                request.body = mail.build();
+                Response response = sg.api(request);
+                if (response.statusCode == 202) {
+                    LOGGER.info("Email send OK!");
+                }
             }
-        } catch (MailException | MessagingException e) {
-            LOGGER.error("ERROR: {}", e.getMessage());
+        } catch (IOException e) {
+            LOGGER.error("Email send error: {}.", e.getMessage());
         }
     }
 
@@ -56,24 +56,5 @@ public class MailSenderImpl implements MailSender {
         }
         table += "</tbody></table>";
         return table;
-    }
-
-    private static Session getMailSession() {
-        Properties props = new Properties();
-        props.setProperty("mail.transport.protocol", "smtp");
-        props.setProperty("mail.smtp.auth", "true");
-        props.setProperty("mail.smtp.starttls.enable", "true");
-        props.setProperty("mail.smtp.host", "smtp.gmail.com");
-        props.setProperty("mail.smtp.port", "587");
-
-        String email = System.getenv("EMAIL");
-        String email_pass = System.getenv("EMAIL_PASS");
-
-        return Session.getInstance(props,
-                new Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(email, email_pass);
-                    }
-                });
     }
 }
