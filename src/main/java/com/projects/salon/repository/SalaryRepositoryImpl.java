@@ -8,8 +8,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -44,22 +42,20 @@ public class SalaryRepositoryImpl implements SalaryRepository {
             admin.setTotal(resultSet.getInt("total"));
             return admin;
         }, month);
+
         jdbcTemplate.query("SELECT\n" +
                 "  name,\n" +
                 "  salary,\n" +
                 "  percent\n" +
                 "FROM employees\n" +
-                "WHERE admin=true;", new RowMapper<SalaryInfo>() {
-            @Override
-            public SalaryInfo mapRow(ResultSet resultSet, int i) throws SQLException {
-                admin.setName(resultSet.getString("name"));
-                int salary = resultSet.getInt("salary");
-                int percent = resultSet.getInt("percent");
-                int finalSalary = (admin.getTotal() * percent / 100) + salary;
-                admin.setSalary(finalSalary);
-                return admin;
-            }
-        });
+                "WHERE admin=true;", (resultSet, i) -> {
+                    admin.setName(resultSet.getString("name"));
+                    int salary = resultSet.getInt("salary");
+                    int percent = resultSet.getInt("percent");
+                    int finalSalary = (admin.getTotal() * percent / 100) + salary;
+                    admin.setSalary(finalSalary);
+                    return admin;
+                });
         return admin;
     }
 }
