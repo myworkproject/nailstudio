@@ -27,12 +27,29 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     @Override
     public List<Employee> getAllWithoutAdmin() {
-        return jdbcTemplate.query("SELECT id,name,phone,email,salary,percent FROM employees WHERE admin=false", EMPLOYEE_ROW_MAPPER);
+        return jdbcTemplate.query("SELECT id,name,phone,email,salary,percent FROM employees WHERE admin=FALSE", EMPLOYEE_ROW_MAPPER);
     }
 
     @Override
     public Employee getById(int id) {
         return jdbcTemplate.queryForObject("SELECT id,name,phone,email,salary,percent FROM employees WHERE id=?", EMPLOYEE_ROW_MAPPER, id);
+    }
+
+    @Override
+    public int getEmployeeIdForClient(int clientId) {
+        final int[] max = {0};
+        final int[] employeeId = {0};
+        jdbcTemplate.query("SELECT count(*) AS visits,employee_id\n" +
+                "               FROM events\n" +
+                "               WHERE client_id = ?\n" +
+                "               GROUP BY employee_id", resultSet -> {
+            int visits = resultSet.getInt("visits");
+            if (visits > max[0]) {
+                max[0] = visits;
+                employeeId[0] = resultSet.getInt("employee_id");
+            }
+        }, clientId);
+        return employeeId[0];
     }
 
     @Override

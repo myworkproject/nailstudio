@@ -11,6 +11,8 @@ public interface EmployeeRepository {
 
     Employee getById(int id);
 
+    int getEmployeeIdForClient(int clientId);
+
     void delete(int id);
 
     int save(Employee employee);
