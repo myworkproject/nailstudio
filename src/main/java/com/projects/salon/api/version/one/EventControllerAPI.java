@@ -29,12 +29,23 @@ public class EventControllerAPI {
     @PostMapping
     public ResponseEntity saveEvent(@RequestParam String clientId, @RequestParam String title, @RequestParam String start) {
         log.info("SAVING EVENT FROM VIBER...");
-        LocalDateTime startEvent = LocalDateTime.parse(getCurrentYear() + "-" + start);
+        String date = parseDate(start);
+        String textDate = getCurrentYear() + "-" + start;
+        log.info("DATE: {}", textDate);
+        LocalDateTime startEvent = LocalDateTime.parse(textDate);
         LocalDateTime endEvent = startEvent.plusHours(1);
         int employeeId = employeeRepository.getEmployeeIdForClient(Integer.parseInt(clientId));
         eventRepository.save(new Event(null, Integer.parseInt(clientId), employeeId, title, startEvent, endEvent, 0));
         log.info("SAVE OK!");
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    private String parseDate(String start) {
+        if (start.substring(0, start.indexOf("-")).length() == 1) {
+            return 0 + start;
+        } else {
+            return start;
+        }
     }
 
     private int getCurrentYear() {
