@@ -30,7 +30,7 @@ public class ClientRestController {
     public HttpEntity<Client> getById(@PathVariable int id) {
         log.debug("Returns client: {}.", id);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Expires", LocalDateTime.now().plusMonths(1).toString());
+        httpHeaders.set("Expires", LocalDateTime.now().plusDays(1).toString());
         return new HttpEntity<>(clientRepository.getById(id), httpHeaders);
     }
 

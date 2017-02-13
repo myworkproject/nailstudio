@@ -34,7 +34,7 @@ public class EmployeeRestController {
     public HttpEntity<Employee> getById(@PathVariable int id) {
         log.debug("Returns employee: {}.", id);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Expires", LocalDateTime.now().plusMonths(1).toString());
+        httpHeaders.set("Expires", LocalDateTime.now().plusDays(1).toString());
         return new HttpEntity<>(employeeRepository.getById(id), httpHeaders);
     }
 
