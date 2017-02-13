@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping("/api/v0.1/events")
@@ -29,10 +30,7 @@ public class EventControllerAPI {
     @PostMapping
     public ResponseEntity saveEvent(@RequestParam String clientId, @RequestParam String title, @RequestParam String start) {
         log.info("SAVING EVENT FROM VIBER...");
-        String date = parseDate(start);
-        String textDate = getCurrentYear() + "-" + start;
-        log.info("DATE: {}", textDate);
-        LocalDateTime startEvent = LocalDateTime.parse(textDate);
+        LocalDateTime startEvent = parseDateTime(start);
         LocalDateTime endEvent = startEvent.plusHours(1);
         int employeeId = employeeRepository.getEmployeeIdForClient(Integer.parseInt(clientId));
         eventRepository.save(new Event(null, Integer.parseInt(clientId), employeeId, title, startEvent, endEvent, 0));
@@ -40,12 +38,18 @@ public class EventControllerAPI {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    private String parseDate(String start) {
+    private LocalDateTime parseDateTime(String start) {
+        String result;
         if (start.substring(0, start.indexOf("-")).length() == 1) {
-            return 0 + start;
+            result = 0 + start;
         } else {
-            return start;
+            result = start;
         }
+        //add year
+        result = getCurrentYear() + "-" + result;
+
+        result = result.replace(" ", "T");
+        return LocalDateTime.parse(result, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
 
     private int getCurrentYear() {
