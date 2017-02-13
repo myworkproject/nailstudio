@@ -30,7 +30,7 @@ public class EventRepositoryImpl implements EventRepository {
     public List<Event> getAll(int employeeId) {
         log.debug("Returns all events.");
         return jdbcTemplate.query(
-                "SELECT id,title,start,\"end\",sum,client_id,employee_id FROM events WHERE employee_id=?",
+                "SELECT id,title,start,\"end\",sum,client_id,employee_id,source FROM events WHERE employee_id=?",
                 EVENT_ROW_MAPPER, employeeId);
     }
 
@@ -45,7 +45,7 @@ public class EventRepositoryImpl implements EventRepository {
     @Override
     public Event getById(int id) {
         log.debug("Return event: {}", id);
-        return jdbcTemplate.queryForObject("SELECT title,start,\"end\",sum,client_id,employee_id FROM events WHERE id=?",
+        return jdbcTemplate.queryForObject("SELECT title,start,\"end\",sum,client_id,employee_id,source FROM events WHERE id=?",
                 EVENT_ROW_MAPPER, id);
     }
 
@@ -94,12 +94,13 @@ public class EventRepositoryImpl implements EventRepository {
         @Override
         public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
             PreparedStatement statement = con.prepareStatement(
-                    "INSERT INTO events(client_id, employee_id, title, start, \"end\") VALUES (?,?,?,?,?)");
+                    "INSERT INTO events(client_id, employee_id, title, start, \"end\",source) VALUES (?,?,?,?,?,?)");
             statement.setInt(1, event.getClientId());
             statement.setInt(2, event.getEmployeeId());
             statement.setString(3, event.getTitle());
             statement.setObject(4, Timestamp.valueOf(event.getStart()), Types.TIMESTAMP);
             statement.setObject(5, Timestamp.valueOf(event.getEnd()), Types.TIMESTAMP);
+            statement.setString(6, event.getSource());
             return statement;
         }
     }

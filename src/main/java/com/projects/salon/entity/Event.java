@@ -20,4 +20,5 @@ public class Event {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime end;
     private int sum;
+    private String source;
 }

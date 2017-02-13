@@ -47,7 +47,7 @@ public class EventServiceImpl implements EventService {
         LocalDateTime startEvent = parseDateTime(start);
         LocalDateTime endEvent = startEvent.plusHours(1);
         int employeeId = employeeRepository.getEmployeeIdForClient(clientId);
-        eventRepository.save(new Event(null, clientId, employeeId, title, startEvent, endEvent, 0));
+        eventRepository.save(new Event(null, clientId, employeeId, title, startEvent, endEvent, 0, "viber"));
     }
 
     private LocalDateTime parseDateTime(String start) {
