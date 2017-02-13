@@ -26,6 +26,10 @@ public class EventControllerAPI {
     @PostMapping("/date")
     public ResponseEntity checkDate(@RequestParam String start, @RequestParam String time, @RequestParam String clientId) {
         log.info("Check date and time {} {} for client: {}.", start, time, clientId);
-        return new ResponseEntity(HttpStatus.OK);
+        if (eventService.checksEventIsFreeFor(start, time, Integer.parseInt(clientId))) {
+            return new ResponseEntity(HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 }

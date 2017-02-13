@@ -8,6 +8,8 @@ import java.util.List;
 public interface EventRepository {
     List<Event> getAll(int employeeId);
 
+    List<Event> checkFreeDate(int month, int day, int employeeId);
+
     Event getById(int id);
 
     void save(Event event);

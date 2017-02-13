@@ -35,6 +35,14 @@ public class EventRepositoryImpl implements EventRepository {
     }
 
     @Override
+    public List<Event> checkFreeDate(int month, int day, int employeeId) {
+        return jdbcTemplate.query("SELECT *\n" +
+                "FROM events\n" +
+                "WHERE employee_id = ? AND extract(MONTH FROM start) = ?\n" +
+                "      AND extract(DAY FROM start) = ?", EVENT_ROW_MAPPER, employeeId, month, day);
+    }
+
+    @Override
     public Event getById(int id) {
         log.debug("Return event: {}", id);
         return jdbcTemplate.queryForObject("SELECT title,start,\"end\",sum,client_id,employee_id FROM events WHERE id=?",

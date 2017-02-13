@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -19,9 +21,25 @@ public class EventServiceImpl implements EventService {
     private EmployeeRepository employeeRepository;
 
     @Override
-    public boolean checksEventIsFreeFor(String date, String time, int employeeId) {
-        String dateWithYear = getCurrentYear() + "-" + parseMonth(date);
-        return false;
+    public boolean checksEventIsFreeFor(String date, String time, int clientId) {
+        LocalTime localTime = LocalTime.parse(time);
+        if (localTime.isBefore(LocalTime.parse("8:59")) || localTime.isAfter(LocalTime.parse("19:00"))) {
+            return false;
+        }
+        String[] monthDay = date.split("-");
+        int employeeId = employeeRepository.getEmployeeIdForClient(clientId);
+        List<Event> events = eventRepository.checkFreeDate(Integer.parseInt(monthDay[0]), Integer.parseInt(monthDay[1]), employeeId);
+        for (Event event : events) {
+            LocalTime startLocalTime = event.getStart().toLocalTime();
+            if (startLocalTime.equals(localTime)) {
+                return false;
+            }
+            if (startLocalTime.isBefore(localTime) &&
+                    event.getEnd().toLocalTime().isAfter(localTime)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -52,5 +70,9 @@ public class EventServiceImpl implements EventService {
 
     private int getCurrentYear() {
         return LocalDateTime.now().toLocalDate().getYear();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(LocalTime.parse("15:00"));
     }
 }
