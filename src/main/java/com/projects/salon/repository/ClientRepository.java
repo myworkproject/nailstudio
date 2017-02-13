@@ -9,6 +9,8 @@ public interface ClientRepository {
 
     Client getById(int id);
 
+    Client getByTelephone(String telephone);
+
     int save(Client client);
 
     void update(Client client);

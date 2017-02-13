@@ -38,6 +38,11 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
+    public Client getByTelephone(String telephone) {
+        return jdbcTemplate.queryForObject("SELECT id,name,phone FROM clients WHERE phone=?", CLIENT_ROW_MAPPER, telephone);
+    }
+
+    @Override
     public int save(Client client) {
         SqlParameterSource source = new BeanPropertySqlParameterSource(client);
         return jdbcInsert.executeAndReturnKey(source).intValue();
