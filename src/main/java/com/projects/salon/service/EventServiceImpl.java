@@ -23,7 +23,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public boolean checksEventIsFreeFor(String date, String time, int clientId) {
         LocalTime localTime = LocalTime.parse(time);
-        if (localTime.isBefore(LocalTime.parse("8:59")) || localTime.isAfter(LocalTime.parse("19:00"))) {
+        if (localTime.isBefore(LocalTime.parse("08:59")) || localTime.isAfter(LocalTime.parse("19:00"))) {
             return false;
         }
         String[] monthDay = date.split("-");
