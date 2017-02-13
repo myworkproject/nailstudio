@@ -71,8 +71,4 @@ public class EventServiceImpl implements EventService {
     private int getCurrentYear() {
         return LocalDateTime.now().toLocalDate().getYear();
     }
-
-    public static void main(String[] args) {
-        System.out.println(LocalTime.parse("15:00"));
-    }
 }
