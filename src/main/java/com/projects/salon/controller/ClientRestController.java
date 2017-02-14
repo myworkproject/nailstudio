@@ -47,7 +47,7 @@ public class ClientRestController {
             log.debug("Save new client: {}", client);
             clientRepository.save(client);
         } else {
-            log.debug("Update client: {} name={},phone={}.", client.getId(), client.getName(), client.getPhone());
+            log.debug("Update client: {} name={},phone={}.", client.getId(), client.getFirstName(), client.getPhone());
             clientRepository.update(client);
         }
     }

@@ -54,7 +54,8 @@ $(document).ready(function () {
     $.ajax({
         url: '/client/all', success: function (data) {
             $.each(data, function (i, client) {
-                $("#clients").append('<option value="' + client.id + '">' + client.name + '</option>');
+                $("#clients").append('<option value="' + client.id + '">' + client.firstName +
+                    (client.lastName === null ? " " : " " + client.lastName) + '</option>');
             });
         }
     });

@@ -9,7 +9,7 @@ $(document).ready(function () {
         "paging": false,
         "info": false,
         "ajax": {"url": url + 'all', "dataSrc": ""},
-        "columns": [{"data": "id"}, {"data": "name"}, {"data": "phone"}, {
+        "columns": [{"data": "id"}, {"data": "firstName"},{"data": "lastName"}, {"data": "phone"}, {
             "defaultContent": "",
             "sortable": false,
             "render": renderBtn
