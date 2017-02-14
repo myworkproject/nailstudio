@@ -30,7 +30,7 @@ public class EventRepositoryImpl implements EventRepository {
     public List<Event> getAll(int employeeId) {
         log.debug("Returns all events.");
         return jdbcTemplate.query(
-                "SELECT id,title,start,\"end\",sum,client_id,employee_id,source FROM events WHERE employee_id=?",
+                "SELECT id,title,start,\"end\",sum,client_id,employee_id,source src FROM events WHERE employee_id=?",
                 EVENT_ROW_MAPPER, employeeId);
     }
 
@@ -45,7 +45,7 @@ public class EventRepositoryImpl implements EventRepository {
     @Override
     public Event getById(int id) {
         log.debug("Return event: {}", id);
-        return jdbcTemplate.queryForObject("SELECT title,start,\"end\",sum,client_id,employee_id,source FROM events WHERE id=?",
+        return jdbcTemplate.queryForObject("SELECT title,start,\"end\",sum,client_id,employee_id,source src FROM events WHERE id=?",
                 EVENT_ROW_MAPPER, id);
     }
 
@@ -100,7 +100,7 @@ public class EventRepositoryImpl implements EventRepository {
             statement.setString(3, event.getTitle());
             statement.setObject(4, Timestamp.valueOf(event.getStart()), Types.TIMESTAMP);
             statement.setObject(5, Timestamp.valueOf(event.getEnd()), Types.TIMESTAMP);
-            statement.setString(6, event.getSource());
+            statement.setString(6, event.getSrc());
             return statement;
         }
     }
