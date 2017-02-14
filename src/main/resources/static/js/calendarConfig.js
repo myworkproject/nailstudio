@@ -43,7 +43,7 @@ $(document).ready(function () {
                 var s1 = elemText.substring(0, index);
                 var s2 = elemText.substring(index);
                 element.empty();
-                element.append(s1 + " " + data.name + " " + s2);
+                element.append(s1 + " " + data.firstName + " " + s2);
             });
 
             if (event.src === "viber") {
