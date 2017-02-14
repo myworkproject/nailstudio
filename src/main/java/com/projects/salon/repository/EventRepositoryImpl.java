@@ -75,7 +75,7 @@ public class EventRepositoryImpl implements EventRepository {
     public List<EmailRecord> getTomorrowsForEmployee(int id) {
         return jdbcTemplate.query("SELECT\n" +
                 "  start,\n" +
-                "  first_name name\n" +
+                "  first_name as name\n" +
                 "FROM events evn\n" +
                 "  LEFT JOIN clients cl ON evn.client_id = cl.id\n" +
                 "WHERE\n" +

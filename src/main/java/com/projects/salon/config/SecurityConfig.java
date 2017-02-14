@@ -1,6 +1,7 @@
 package com.projects.salon.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,10 +32,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").defaultSuccessUrl("/")
+                .formLogin().loginPage("/login").successHandler(urlHandler())
                 .and()
                 .logout().logoutSuccessUrl("/login");
 
         http.csrf().disable();
+    }
+
+    @Bean
+    public URLHandler urlHandler() {
+        return new URLHandler();
     }
 }

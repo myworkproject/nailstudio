@@ -10,7 +10,7 @@ public class RootController {
 
     @GetMapping("/")
     public String home() {
-        return "calendar";
+        return "adminCalendar";
     }
 
     @GetMapping("/employees")
