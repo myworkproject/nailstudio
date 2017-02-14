@@ -6,7 +6,7 @@
 <body>
 <header th:fragment="header">
     <div class="ui inverted menu">
-        <a class="header item" th:href="@{/}">Календарь</a>
+        <a class="header item" th:href="${hURL}">Календарь</a>
         <a class="item" th:href="@{/clients}"
            th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Клиенты</a>
         <a class="item" th:href="@{/employees}"

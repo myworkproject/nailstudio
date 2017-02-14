@@ -23,9 +23,9 @@ public class URLHandler implements AuthenticationSuccessHandler {
         log.info("USER: {} is authenticated.", employee.getName());
         for (GrantedAuthority authority : authorities) {
             if (authority.getAuthority().equals("ROLE_USER")) {
-                httpServletResponse.sendRedirect("/");
+                httpServletResponse.sendRedirect("/user");
             } else if (authority.getAuthority().equals("ROLE_ADMIN")) {
-                httpServletResponse.sendRedirect("/");
+                httpServletResponse.sendRedirect("/admin");
             }
         }
     }

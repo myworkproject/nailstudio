@@ -30,7 +30,7 @@ public class LoggedUser extends org.springframework.security.core.userdetails.Us
     }
 
     public static int getId() {
-        return get().getId();
+        return get().asEmployee().getId();
     }
 
     public Employee asEmployee() {
