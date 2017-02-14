@@ -20,7 +20,7 @@
                 <div class="ui input"><input type="number" id="sum" placeholder="Сумма"/></div>
                 <button id="pay" class="ui positive basic button" onclick="eventPay()">Заплатить</button>
             </div>
-            <div class="one wide column">
+            <div class="one wide column" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                 <button class="ui button red" onclick="deleteEvent()">Удалить</button>
             </div>
         </div>
@@ -32,7 +32,7 @@
     <div class="ui twelve wide column">
         <div id="calendar"></div>
     </div>
-    <div class="ui four wide column">
+    <div class="ui four wide column" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
         <form class="ui form"><input id="eventId" hidden="hidden"/> <input id="employeeId" hidden="hidden"/>
             <div class="field"><label for="start">Начало</label> <input type="datetime-local" id="start"/></div>
             <div class="field"><label for="end">Конец</label> <input type="datetime-local" id="end"/></div>

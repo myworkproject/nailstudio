@@ -5,10 +5,16 @@
     <title>Fragments</title></head>
 <body>
 <header th:fragment="header">
-    <div class="ui inverted menu"><a class="header item" th:href="@{/}"> Календарь </a> <a class="item"
-                                                                                           th:href="@{/clients}">
-        Клиенты </a> <a class="item" th:href="@{/employees}"> Работники </a> <a class="item" th:href="@{/salary}">
-        Зарплата </a></div>
+    <div class="ui inverted menu">
+        <a class="header item" th:href="@{/}">Календарь</a>
+        <a class="item" th:href="@{/clients}"
+           th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Клиенты</a>
+        <a class="item" th:href="@{/employees}"
+           th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Работники</a>
+        <a class="item" th:href="@{/salary}"
+           th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Зарплата</a>
+        <a class="item right" th:href="@{/logout}" href="/logout">Выйти</a>
+    </div>
 </header>
 <footer th:fragment="footer"></footer>
 </body>

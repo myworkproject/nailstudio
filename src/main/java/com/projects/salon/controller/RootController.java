@@ -27,4 +27,9 @@ public class RootController {
     public String salary() {
         return "salary";
     }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 }
