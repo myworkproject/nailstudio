@@ -3,12 +3,23 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Login</title>
+    <link rel="stylesheet" href='../static/css/login.css' th:href="@{/css/login.css}"/>
+    <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet'/>
+
 </head>
 <body>
-<form th:action="@{/login}" method="post">
-    <input name="username" type="text"/>
-    <input name="password" type="text"/>
-    <button type="submit">Вход</button>
-</form>
+<div id="login_container">
+    <div id="form_container">
+        <p class="login-text">Авторизация на сайте</p>
+        <form th:action="@{/login}" method="post">
+            <input type='text' onFocus="if(this.value=='Логин')this.value=''"
+                   onblur="if(this.value=='')this.value='Логин'" name='username' value='Логин' class='text_input'/>
+            <input type='text' onFocus="if(this.value=='Пароль')this.value=''"
+                   onblur="if(this.value=='')this.value='Пароль'" name='password' value='Пароль' class='text_input'/>
+            <input type='submit' value='' id='login' name='login'/>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>
