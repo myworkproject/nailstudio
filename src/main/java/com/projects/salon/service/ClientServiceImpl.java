@@ -38,8 +38,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Secured("ADMIN")
-    public int save(Client client) {
-        return clientRepository.save(client);
+    public void save(Client client) {
+        clientRepository.save(client);
     }
 
     @Override

@@ -11,7 +11,7 @@ public interface ClientService {
 
     Client getByTelephone(String telephone);
 
-    int save(Client client);
+    void save(Client client);
 
     void update(Client client);
 

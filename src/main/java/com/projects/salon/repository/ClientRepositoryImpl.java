@@ -16,8 +16,8 @@ import java.util.List;
 @Repository
 public class ClientRepositoryImpl implements ClientRepository {
     private static final RowMapper<Client> CLIENT_ROW_MAPPER = BeanPropertyRowMapper.newInstance(Client.class);
-    private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert jdbcInsert;
+    private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert jdbcInsert;
 
     @Autowired
     public ClientRepositoryImpl(DataSource dataSource) {

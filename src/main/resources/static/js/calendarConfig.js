@@ -31,7 +31,7 @@ $(document).ready(function () {
             $("#eventId").val(calEvent.id);
             var sum = calEvent.sum;
             $("#sum").val("");
-            if (sum != 0) {
+            if (sum !== 0) {
                 $("#sum").val(sum);
             }
             $(".ui.modal").modal("show");

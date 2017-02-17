@@ -19,7 +19,7 @@ import java.util.List;
 public class EventRepositoryImpl implements EventRepository {
     private static final RowMapper<Event> EVENT_ROW_MAPPER = BeanPropertyRowMapper.newInstance(Event.class);
     private static final RowMapper<EmailRecord> RECORD_ROW_MAPPER = BeanPropertyRowMapper.newInstance(EmailRecord.class);
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
     public EventRepositoryImpl(DataSource dataSource) {

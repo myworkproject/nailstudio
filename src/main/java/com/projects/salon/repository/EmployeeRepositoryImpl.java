@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Repository
 public class EmployeeRepositoryImpl implements EmployeeRepository, UserDetailsService {
     private static final RowMapper<Employee> EMPLOYEE_ROW_MAPPER = BeanPropertyRowMapper.newInstance(Employee.class);
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
     public EmployeeRepositoryImpl(DataSource dataSource) {

@@ -2,8 +2,8 @@ package com.projects.salon.scheduler;
 
 import com.projects.salon.entity.EmailRecord;
 import com.projects.salon.entity.Employee;
-import com.projects.salon.repository.EmployeeRepository;
-import com.projects.salon.repository.EventRepository;
+import com.projects.salon.service.EmployeeService;
+import com.projects.salon.service.EventService;
 import com.projects.salon.service.MailSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,23 +20,23 @@ import java.util.List;
 @EnableScheduling
 @Slf4j
 public class EmailScheduling {
-    private final EventRepository eventRepository;
-    private final EmployeeRepository employeeRepository;
+    private final EventService eventService;
+    private final EmployeeService employeeService;
     private final MailSender mailSender;
 
     @Autowired
-    public EmailScheduling(EventRepository eventRepository, EmployeeRepository employeeRepository, MailSender mailSender) {
-        this.eventRepository = eventRepository;
-        this.employeeRepository = employeeRepository;
+    public EmailScheduling(EventService eventRepository, EmployeeService employeeRepository, MailSender mailSender) {
+        this.eventService = eventRepository;
+        this.employeeService = employeeRepository;
         this.mailSender = mailSender;
     }
 
     @Async
     @Scheduled(cron = "0 0 22 * * *", zone = "Europe/Kiev")
     public void test() {
-        List<Employee> employees = employeeRepository.getAllWithoutAdmin();
+        List<Employee> employees = employeeService.getAllWithoutAdmin();
         for (Employee employee : employees) {
-            List<EmailRecord> tomorrowsForEmployee = eventRepository.getTomorrowsForEmployee(employee.getId());
+            List<EmailRecord> tomorrowsForEmployee = eventService.getTomorrowsForEmployee(employee.getId());
             log.info("Tomorrow records for {}: {}", employee.getName(), tomorrowsForEmployee);
             mailSender.sendMessage(employee, tomorrowsForEmployee);
         }

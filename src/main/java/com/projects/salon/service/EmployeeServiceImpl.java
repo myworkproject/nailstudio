@@ -49,8 +49,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Secured("ADMIN")
-    public int save(Employee employee) {
-        return employeeRepository.save(employee);
+    public void save(Employee employee) {
+        employeeRepository.save(employee);
     }
 
     @Override
