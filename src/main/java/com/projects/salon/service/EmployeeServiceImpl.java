@@ -1,11 +1,13 @@
 package com.projects.salon.service;
 
 import com.projects.salon.entity.Employee;
+import com.projects.salon.entity.Role;
 import com.projects.salon.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -50,6 +52,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Secured("ADMIN")
     public void save(Employee employee) {
+        employee.setId(null);
+        employee.setRoles(Collections.singleton(Role.ROLE_USER));
         employeeRepository.save(employee);
     }
 

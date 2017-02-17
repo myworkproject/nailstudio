@@ -51,7 +51,6 @@ public class EmployeeRestController {
     @PostMapping
     public void saveOrUpdate(Employee employee) {
         if (employee.getId() == 0) {
-            employee.setId(null);
             log.debug("Save employee: {}.", employee);
             employeeService.save(employee);
         } else {
