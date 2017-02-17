@@ -1,7 +1,7 @@
 package com.projects.salon.controller;
 
 import com.projects.salon.entity.Employee;
-import com.projects.salon.repository.EmployeeRepository;
+import com.projects.salon.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -18,15 +18,15 @@ import java.util.List;
 public class EmployeeRestController {
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EmployeeService employeeService;
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Employee> getAll(@RequestParam(required = false) boolean admin) {
         log.debug("Returns all employees.");
         if (admin) {
-            return employeeRepository.getAll();
+            return employeeService.getAll();
         } else {
-            return employeeRepository.getAllWithoutAdmin();
+            return employeeService.getAllWithoutAdmin();
         }
     }
 
@@ -35,13 +35,13 @@ public class EmployeeRestController {
         log.debug("Returns employee: {}.", id);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Expires", LocalDateTime.now().plusDays(1).toString());
-        return new HttpEntity<>(employeeRepository.getById(id), httpHeaders);
+        return new HttpEntity<>(employeeService.getById(id), httpHeaders);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) {
         log.debug("Delete employee: {}.", id);
-        employeeRepository.delete(id);
+        employeeService.delete(id);
     }
 
     @PostMapping
@@ -49,11 +49,11 @@ public class EmployeeRestController {
         if (employee.getId() == 0) {
             employee.setId(null);
             log.debug("Save employee: {}.", employee);
-            employeeRepository.save(employee);
+            employeeService.save(employee);
         } else {
             log.debug("Update employee {}: name={}, phone={}, salary={}.",
                     employee.getId(), employee.getName(), employee.getPhone(), employee.getSalary());
-            employeeRepository.update(employee);
+            employeeService.update(employee);
         }
     }
 }

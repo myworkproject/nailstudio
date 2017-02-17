@@ -24,17 +24,20 @@ public class RootController {
     }
 
     @GetMapping("/employees")
-    public String employees() {
+    public String employees(Model model) {
+        model.addAttribute("hURL", "/admin");
         return "employee";
     }
 
     @GetMapping("/clients")
-    public String clients() {
+    public String clients(Model model) {
+        model.addAttribute("hURL", "/admin");
         return "client";
     }
 
     @GetMapping("/salary")
-    public String salary() {
+    public String salary(Model model) {
+        model.addAttribute("hURL", "/admin");
         return "salary";
     }
 
