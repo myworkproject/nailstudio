@@ -1,9 +1,11 @@
 package com.projects.salon.service;
 
+import com.projects.salon.entity.EmailRecord;
 import com.projects.salon.entity.Event;
 import com.projects.salon.repository.EmployeeRepository;
 import com.projects.salon.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -48,6 +50,49 @@ public class EventServiceImpl implements EventService {
         LocalDateTime endEvent = startEvent.plusHours(1);
         int employeeId = employeeRepository.getEmployeeIdForClient(clientId);
         eventRepository.save(new Event(null, clientId, employeeId, title, startEvent, endEvent, 0, "viber"));
+    }
+
+    @Override
+    public List<Event> getAll(int employeeId) {
+        return eventRepository.getAll(employeeId);
+    }
+
+    @Override
+    public List<Event> checkFreeDate(int month, int day, int employeeId) {
+        return eventRepository.checkFreeDate(month, day, employeeId);
+    }
+
+    @Override
+    public Event getById(int id) {
+        return eventRepository.getById(id);
+    }
+
+    @Override
+    @Secured("ADMIN")
+    public void save(Event event) {
+        eventRepository.save(event);
+    }
+
+    @Override
+    @Secured("ADMIN")
+    public void update(Event event) {
+        eventRepository.update(event);
+    }
+
+    @Override
+    @Secured("ADMIN")
+    public void delete(int id) {
+        eventRepository.delete(id);
+    }
+
+    @Override
+    public void payEvent(int id, int sum) {
+        eventRepository.payEvent(id, sum);
+    }
+
+    @Override
+    public List<EmailRecord> getTomorrowsForEmployee(int id) {
+        return eventRepository.getTomorrowsForEmployee(id);
     }
 
     private LocalDateTime parseDateTime(String start) {
