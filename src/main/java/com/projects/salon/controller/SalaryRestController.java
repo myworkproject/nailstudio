@@ -14,8 +14,12 @@ import java.util.List;
 @RequestMapping("/salary")
 public class SalaryRestController {
 
+    private final SalaryService salaryService;
+
     @Autowired
-    private SalaryService salaryService;
+    public SalaryRestController(SalaryService salaryService) {
+        this.salaryService = salaryService;
+    }
 
     @GetMapping("/all/{month}")
     public List<SalaryInfo> getAllInfos(@PathVariable int month) {

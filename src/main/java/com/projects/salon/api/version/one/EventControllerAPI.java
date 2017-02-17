@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class EventControllerAPI {
 
+    private final EventService eventService;
+
     @Autowired
-    private EventService eventService;
+    public EventControllerAPI(EventService eventService) {
+        this.eventService = eventService;
+    }
 
     @PostMapping
     public ResponseEntity saveEvent(@RequestParam String clientId, @RequestParam String title, @RequestParam String start) {

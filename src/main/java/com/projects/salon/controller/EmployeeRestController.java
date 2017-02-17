@@ -17,8 +17,12 @@ import java.util.List;
 @Slf4j
 public class EmployeeRestController {
 
+    private final EmployeeService employeeService;
+
     @Autowired
-    private EmployeeService employeeService;
+    public EmployeeRestController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Employee> getAll(@RequestParam(required = false) boolean admin) {

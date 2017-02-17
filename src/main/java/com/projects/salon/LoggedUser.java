@@ -23,7 +23,7 @@ public class LoggedUser extends org.springframework.security.core.userdetails.Us
         return (user instanceof LoggedUser) ? (LoggedUser) user : null;
     }
 
-    public static LoggedUser get() {
+    private static LoggedUser get() {
         LoggedUser user = safeGet();
         requireNonNull(user, "No authorized user found");
         return user;

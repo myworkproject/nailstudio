@@ -41,7 +41,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository, UserDetailsSe
                 this.userId = userId;
             }
 
-            public Role getRole() {
+            private Role getRole() {
                 return role;
             }
 
@@ -70,7 +70,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository, UserDetailsSe
                 this.userId = userId;
             }
 
-            public Role getRole() {
+            private Role getRole() {
                 return role;
             }
 

@@ -14,8 +14,12 @@ import java.util.List;
 @Slf4j
 public class EventRestController {
 
+    private final EventService eventService;
+
     @Autowired
-    private EventService eventService;
+    public EventRestController(EventService eventService) {
+        this.eventService = eventService;
+    }
 
     @GetMapping(value = "/all/{employeeId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Event> getAll(@PathVariable int employeeId) {

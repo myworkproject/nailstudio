@@ -2,7 +2,6 @@ package com.projects.salon.service;
 
 import com.projects.salon.entity.EmailRecord;
 import com.projects.salon.entity.Event;
-import com.projects.salon.repository.EmployeeRepository;
 import com.projects.salon.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -16,11 +15,14 @@ import java.util.List;
 @Service
 public class EventServiceImpl implements EventService {
 
-    @Autowired
-    private EventRepository eventRepository;
+    private final EventRepository eventRepository;
+    private final EmployeeService employeeService;
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    public EventServiceImpl(EventRepository eventRepository, EmployeeService employeeRepository) {
+        this.eventRepository = eventRepository;
+        this.employeeService = employeeRepository;
+    }
 
     @Override
     public boolean checksEventIsFreeFor(String date, String time, int clientId) {
@@ -29,7 +31,7 @@ public class EventServiceImpl implements EventService {
             return false;
         }
         String[] monthDay = date.split("-");
-        int employeeId = employeeRepository.getEmployeeIdForClient(clientId);
+        int employeeId = employeeService.getEmployeeIdForClient(clientId);
         List<Event> events = eventRepository.checkFreeDate(Integer.parseInt(monthDay[0]), Integer.parseInt(monthDay[1]), employeeId);
         for (Event event : events) {
             LocalTime startLocalTime = event.getStart().toLocalTime();
@@ -48,7 +50,7 @@ public class EventServiceImpl implements EventService {
     public void save(int clientId, String title, String start) {
         LocalDateTime startEvent = parseDateTime(start);
         LocalDateTime endEvent = startEvent.plusHours(1);
-        int employeeId = employeeRepository.getEmployeeIdForClient(clientId);
+        int employeeId = employeeService.getEmployeeIdForClient(clientId);
         eventRepository.save(new Event(null, clientId, employeeId, title, startEvent, endEvent, 0, "viber"));
     }
 

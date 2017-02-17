@@ -17,8 +17,12 @@ import java.util.List;
 @Slf4j
 public class ClientRestController {
 
+    private final ClientService clientService;
+
     @Autowired
-    private ClientService clientService;
+    public ClientRestController(ClientService clientService) {
+        this.clientService = clientService;
+    }
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Client> getAll() {
