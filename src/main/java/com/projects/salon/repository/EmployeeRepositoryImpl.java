@@ -24,6 +24,15 @@ import java.util.stream.Collectors;
 
 @Repository
 public class EmployeeRepositoryImpl implements EmployeeRepository, UserDetailsService {
+    private static final String GET_ALL = "SELECT id,name,phone,email,salary,percent,password,enabled FROM employees";
+    private static final String GET_ALL_WITHOUT_ADMIN = "SELECT id,name,phone,email,salary,percent,password,enabled FROM employees WHERE admin=FALSE";
+    private static final String GET_BY_ID = "SELECT id,name,phone,email,salary,percent,password,enabled FROM employees WHERE id=?";
+    private static final String GET_BY_EMAIL = "SELECT id,name,phone,email,salary,percent,password,enabled FROM employees WHERE email=?";
+    private static final String GET_ALL_ROLES = "SELECT role, user_id FROM user_roles";
+    private static final String GET_EMPLOYEE_ID_FOR_CLIENT = "SELECT count(*) AS visits,employee_id FROM events WHERE client_id = ? GROUP BY employee_id";
+    private static final String DELETE_EMPLOYEE = "DELETE FROM employees WHERE id=?";
+    private static final String UPDATE = "UPDATE employees SET name=?,phone=?,salary=?,percent=?,email=? WHERE id=?";
+
     private static final RowMapper<Employee> EMPLOYEE_ROW_MAPPER = BeanPropertyRowMapper.newInstance(Employee.class);
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
@@ -38,31 +47,21 @@ public class EmployeeRepositoryImpl implements EmployeeRepository, UserDetailsSe
 
     @Override
     public List<Employee> getAll() {
-        List<Employee> all = jdbcTemplate.query("SELECT id,name,phone,email,salary,percent,password,enabled FROM employees", EMPLOYEE_ROW_MAPPER);
-
-        Map<Integer, List<EmployeeRole>> userRoles = jdbcTemplate.query("SELECT role, user_id FROM user_roles",
-                (rs, rowNum) -> new EmployeeRole(Role.valueOf(rs.getString("role")), rs.getInt("user_id")))
-                .stream().collect(Collectors.groupingBy(EmployeeRole::getUserId));
-
-        all.forEach(u -> u.setRoles(userRoles.get(u.getId()).stream().map(EmployeeRole::getRole).collect(Collectors.toSet())));
+        List<Employee> all = jdbcTemplate.query(GET_ALL, EMPLOYEE_ROW_MAPPER);
+        getAndInsertAllRoles(all);
         return all;
     }
 
     @Override
     public List<Employee> getAllWithoutAdmin() {
-        List<Employee> all = jdbcTemplate.query("SELECT id,name,phone,email,salary,percent,password,enabled FROM employees WHERE admin=FALSE", EMPLOYEE_ROW_MAPPER);
-
-        Map<Integer, List<EmployeeRole>> userRoles = jdbcTemplate.query("SELECT role, user_id FROM user_roles",
-                (rs, rowNum) -> new EmployeeRole(Role.valueOf(rs.getString("role")), rs.getInt("user_id")))
-                .stream().collect(Collectors.groupingBy(EmployeeRole::getUserId));
-
-        all.forEach(u -> u.setRoles(userRoles.get(u.getId()).stream().map(EmployeeRole::getRole).collect(Collectors.toSet())));
+        List<Employee> all = jdbcTemplate.query(GET_ALL_WITHOUT_ADMIN, EMPLOYEE_ROW_MAPPER);
+        getAndInsertAllRoles(all);
         return all;
     }
 
     @Override
     public Employee getById(int id) {
-        Employee employee = jdbcTemplate.queryForObject("SELECT id,name,phone,email,salary,percent,password,enabled FROM employees WHERE id=?", EMPLOYEE_ROW_MAPPER, id);
+        Employee employee = jdbcTemplate.queryForObject(GET_BY_ID, EMPLOYEE_ROW_MAPPER, id);
         return setRoles(employee);
     }
 
@@ -70,10 +69,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository, UserDetailsSe
     public int getEmployeeIdForClient(int clientId) {
         final int[] max = {0};
         final int[] employeeId = {0};
-        jdbcTemplate.query("SELECT count(*) AS visits,employee_id\n" +
-                "               FROM events\n" +
-                "               WHERE client_id = ?\n" +
-                "               GROUP BY employee_id", resultSet -> {
+        jdbcTemplate.query(GET_EMPLOYEE_ID_FOR_CLIENT, resultSet -> {
             int visits = resultSet.getInt("visits");
             if (visits > max[0]) {
                 max[0] = visits;
@@ -85,7 +81,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository, UserDetailsSe
 
     @Override
     public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM employees WHERE id=?", id);
+        jdbcTemplate.update(DELETE_EMPLOYEE, id);
     }
 
     @Override
@@ -101,14 +97,24 @@ public class EmployeeRepositoryImpl implements EmployeeRepository, UserDetailsSe
     public void update(Employee emp) {
         deleteRoles(emp);
         insertRoles(emp);
-        jdbcTemplate.update("UPDATE employees SET name=?,phone=?,salary=?,percent=?,email=? WHERE id=?",
+        jdbcTemplate.update(UPDATE,
                 emp.getName(), emp.getPhone(), emp.getSalary(), emp.getPercent(), emp.getEmail(), emp.getId());
     }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Employee employee = jdbcTemplate.queryForObject("SELECT id,name,phone,email,salary,percent,password,enabled FROM employees WHERE email=?", EMPLOYEE_ROW_MAPPER, s);
+        Employee employee = jdbcTemplate.queryForObject(GET_BY_EMAIL, EMPLOYEE_ROW_MAPPER, s);
         return new LoggedUser(setRoles(employee));
+    }
+
+    private Map<Integer, List<EmployeeRole>> getAllRoles() {
+        return jdbcTemplate.query(GET_ALL_ROLES,
+                (rs, rowNum) -> new EmployeeRole(Role.valueOf(rs.getString("role")), rs.getInt("user_id")))
+                .stream().collect(Collectors.groupingBy(EmployeeRole::getUserId));
+    }
+
+    private void insertRolesAllEmployees(List<Employee> all, Map<Integer, List<EmployeeRole>> userRoles) {
+        all.forEach(u -> u.setRoles(userRoles.get(u.getId()).stream().map(EmployeeRole::getRole).collect(Collectors.toSet())));
     }
 
     private void insertRoles(Employee employee) {
@@ -139,6 +145,11 @@ public class EmployeeRepositoryImpl implements EmployeeRepository, UserDetailsSe
                 (rs, rowNum) -> Role.valueOf(rs.getString("role")), e.getId());
         e.setRoles(new HashSet<>(roles));
         return e;
+    }
+
+    private void getAndInsertAllRoles(List<Employee> all) {
+        Map<Integer, List<EmployeeRole>> userRoles = getAllRoles();
+        insertRolesAllEmployees(all, userRoles);
     }
 
     private class EmployeeRole {
