@@ -33,9 +33,11 @@ public class LoggedUser extends org.springframework.security.core.userdetails.Us
         return get().asEmployee().getId();
     }
 
+    public static Employee getUser() {
+        return get().asEmployee();
+    }
+
     public Employee asEmployee() {
         return loggedUser;
     }
-
-
 }

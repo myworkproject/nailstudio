@@ -13,7 +13,10 @@
            th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Работники</a>
         <a class="item" th:href="@{/salary}"
            th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Зарплата</a>
-        <a class="item right" th:href="@{/logout}" href="/logout">Выйти</a>
+        <div class="right menu">
+            <a class="item right" th:href="@{/profile}" href="/profile">Профиль</a>
+            <a class="item right" th:href="@{/logout}" href="/logout">Выйти</a>
+        </div>
     </div>
 </header>
 <footer th:fragment="footer"></footer>
