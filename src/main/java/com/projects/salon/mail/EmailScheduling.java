@@ -1,10 +1,9 @@
-package com.projects.salon.scheduler;
+package com.projects.salon.mail;
 
 import com.projects.salon.entity.EmailRecord;
 import com.projects.salon.entity.Employee;
 import com.projects.salon.service.EmployeeService;
 import com.projects.salon.service.EventService;
-import com.projects.salon.service.MailSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
