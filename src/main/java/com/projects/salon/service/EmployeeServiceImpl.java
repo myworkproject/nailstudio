@@ -54,6 +54,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void save(Employee employee) {
         employee.setId(null);
         employee.setRoles(Collections.singleton(Role.ROLE_USER));
+        employee.setPassword("0000");
         employeeRepository.save(employee);
     }
 
