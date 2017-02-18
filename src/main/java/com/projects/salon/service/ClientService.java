@@ -1,17 +1,17 @@
-package com.projects.salon.repository;
+package com.projects.salon.service;
 
 import com.projects.salon.entity.Client;
 
 import java.util.List;
 
-public interface ClientRepository {
+public interface ClientService {
     List<Client> getAll();
 
     Client getById(int id);
 
     Client getByTelephone(String telephone);
 
-    int save(Client client);
+    void save(Client client);
 
     void update(Client client);
 

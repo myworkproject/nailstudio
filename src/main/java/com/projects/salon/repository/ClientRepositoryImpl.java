@@ -16,8 +16,8 @@ import java.util.List;
 @Repository
 public class ClientRepositoryImpl implements ClientRepository {
     private static final RowMapper<Client> CLIENT_ROW_MAPPER = BeanPropertyRowMapper.newInstance(Client.class);
-    private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert jdbcInsert;
+    private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert jdbcInsert;
 
     @Autowired
     public ClientRepositoryImpl(DataSource dataSource) {
@@ -29,12 +29,17 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     public List<Client> getAll() {
-        return jdbcTemplate.query("SELECT id,name,phone FROM clients", CLIENT_ROW_MAPPER);
+        return jdbcTemplate.query("SELECT id,first_name,last_name,phone FROM clients", CLIENT_ROW_MAPPER);
     }
 
     @Override
     public Client getById(int id) {
-        return jdbcTemplate.queryForObject("SELECT id,name,phone FROM clients WHERE id=?", CLIENT_ROW_MAPPER, id);
+        return jdbcTemplate.queryForObject("SELECT id,first_name,last_name,phone FROM clients WHERE id=?", CLIENT_ROW_MAPPER, id);
+    }
+
+    @Override
+    public Client getByTelephone(String telephone) {
+        return jdbcTemplate.queryForObject("SELECT id,first_name,last_name,phone FROM clients WHERE phone=?", CLIENT_ROW_MAPPER, telephone);
     }
 
     @Override
@@ -45,8 +50,8 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     public void update(Client client) {
-        jdbcTemplate.update("UPDATE clients SET name=?,phone=? WHERE id=?",
-                client.getName(), client.getPhone(), client.getId());
+        jdbcTemplate.update("UPDATE clients SET first_name=?,last_name=?,phone=? WHERE id=?",
+                client.getFirstName(), client.getLastName(), client.getPhone(), client.getId());
     }
 
     @Override

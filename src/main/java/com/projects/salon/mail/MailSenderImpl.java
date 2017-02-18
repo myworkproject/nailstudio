@@ -1,4 +1,4 @@
-package com.projects.salon.service;
+package com.projects.salon.mail;
 
 import com.projects.salon.entity.EmailRecord;
 import com.projects.salon.entity.Employee;

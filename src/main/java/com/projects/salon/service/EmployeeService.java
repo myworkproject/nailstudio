@@ -1,10 +1,10 @@
-package com.projects.salon.repository;
+package com.projects.salon.service;
 
 import com.projects.salon.entity.Employee;
 
 import java.util.List;
 
-public interface EmployeeRepository {
+public interface EmployeeService {
     List<Employee> getAll();
 
     List<Employee> getAllWithoutAdmin();
@@ -15,7 +15,7 @@ public interface EmployeeRepository {
 
     void delete(int id);
 
-    int save(Employee employee);
+    void save(Employee employee);
 
     void update(Employee employee);
 }

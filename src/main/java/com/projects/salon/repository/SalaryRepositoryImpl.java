@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public class SalaryRepositoryImpl implements SalaryRepository {
     private static final RowMapper<SalaryInfo> SALARY_INFO_ROW_MAPPER = BeanPropertyRowMapper.newInstance(SalaryInfo.class);
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
     public SalaryRepositoryImpl(DataSource dataSource) {

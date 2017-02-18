@@ -1,11 +1,15 @@
-package com.projects.salon.repository;
+package com.projects.salon.service;
 
 import com.projects.salon.entity.EmailRecord;
 import com.projects.salon.entity.Event;
 
 import java.util.List;
 
-public interface EventRepository {
+public interface EventService {
+    boolean checksEventIsFreeFor(String date, String time, int clientId);
+
+    void save(int clientId, String title, String start);
+
     List<Event> getAll(int employeeId);
 
     List<Event> checkFreeDate(int month, int day, int employeeId);

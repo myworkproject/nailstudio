@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Client {
     private Integer id;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String phone;
 }
