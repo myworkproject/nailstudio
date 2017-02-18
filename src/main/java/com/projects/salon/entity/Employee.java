@@ -18,5 +18,6 @@ public class Employee {
     private int salary;
     private int percent;
     private boolean enabled = true;
+    private boolean admin = false;
     private Set<Role> roles;
 }

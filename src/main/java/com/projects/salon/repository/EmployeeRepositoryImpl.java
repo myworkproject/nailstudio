@@ -8,6 +8,9 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,32 +26,19 @@ import java.util.stream.Collectors;
 public class EmployeeRepositoryImpl implements EmployeeRepository, UserDetailsService {
     private static final RowMapper<Employee> EMPLOYEE_ROW_MAPPER = BeanPropertyRowMapper.newInstance(Employee.class);
     private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert jdbcInsert;
 
     @Autowired
     public EmployeeRepositoryImpl(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.jdbcInsert = new SimpleJdbcInsert(dataSource)
+                .withTableName("employees")
+                .usingGeneratedKeyColumns("id");
     }
 
     @Override
     public List<Employee> getAll() {
         List<Employee> all = jdbcTemplate.query("SELECT id,name,phone,email,salary,percent,password,enabled FROM employees", EMPLOYEE_ROW_MAPPER);
-        class EmployeeRole {
-            final private Role role;
-            final private int userId;
-
-            private EmployeeRole(Role role, int userId) {
-                this.role = role;
-                this.userId = userId;
-            }
-
-            private Role getRole() {
-                return role;
-            }
-
-            private int getUserId() {
-                return userId;
-            }
-        }
 
         Map<Integer, List<EmployeeRole>> userRoles = jdbcTemplate.query("SELECT role, user_id FROM user_roles",
                 (rs, rowNum) -> new EmployeeRole(Role.valueOf(rs.getString("role")), rs.getInt("user_id")))
@@ -61,23 +51,6 @@ public class EmployeeRepositoryImpl implements EmployeeRepository, UserDetailsSe
     @Override
     public List<Employee> getAllWithoutAdmin() {
         List<Employee> all = jdbcTemplate.query("SELECT id,name,phone,email,salary,percent,password,enabled FROM employees WHERE admin=FALSE", EMPLOYEE_ROW_MAPPER);
-        class EmployeeRole {
-            final private Role role;
-            final private int userId;
-
-            private EmployeeRole(Role role, int userId) {
-                this.role = role;
-                this.userId = userId;
-            }
-
-            private Role getRole() {
-                return role;
-            }
-
-            private int getUserId() {
-                return userId;
-            }
-        }
 
         Map<Integer, List<EmployeeRole>> userRoles = jdbcTemplate.query("SELECT role, user_id FROM user_roles",
                 (rs, rowNum) -> new EmployeeRole(Role.valueOf(rs.getString("role")), rs.getInt("user_id")))
@@ -116,18 +89,20 @@ public class EmployeeRepositoryImpl implements EmployeeRepository, UserDetailsSe
     }
 
     @Override
-    public int save(Employee employee) {
-        //todo roles save
-        jdbcTemplate.update("INSERT INTO employees(name, phone,salary,percent,email) VALUES (?,?,?,?,?)",
-                employee.getName(), employee.getPhone(), employee.getSalary(), employee.getPercent(), employee.getEmail());
-        return 1;
+    public int save(Employee emp) {
+        SqlParameterSource source = new BeanPropertySqlParameterSource(emp);
+        int key = jdbcInsert.executeAndReturnKey(source).intValue();
+        emp.setId(key);
+        insertRoles(emp);
+        return key;
     }
 
     @Override
-    public void update(Employee em) {
-        //todo roles save
+    public void update(Employee emp) {
+        deleteRoles(emp);
+        insertRoles(emp);
         jdbcTemplate.update("UPDATE employees SET name=?,phone=?,salary=?,percent=?,email=? WHERE id=?",
-                em.getName(), em.getPhone(), em.getSalary(), em.getPercent(), em.getEmail(), em.getId());
+                emp.getName(), emp.getPhone(), emp.getSalary(), emp.getPercent(), emp.getEmail(), emp.getId());
     }
 
     @Override
@@ -164,5 +139,23 @@ public class EmployeeRepositoryImpl implements EmployeeRepository, UserDetailsSe
                 (rs, rowNum) -> Role.valueOf(rs.getString("role")), e.getId());
         e.setRoles(new HashSet<>(roles));
         return e;
+    }
+
+    private class EmployeeRole {
+        final private Role role;
+        final private int userId;
+
+        private EmployeeRole(Role role, int userId) {
+            this.role = role;
+            this.userId = userId;
+        }
+
+        private Role getRole() {
+            return role;
+        }
+
+        private int getUserId() {
+            return userId;
+        }
     }
 }
